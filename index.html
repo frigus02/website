@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <meta name="theme-color" content="#3f51b5">
+
+    <title>Jan Kühle</title>
+
+    <base href="/">
+
+    <script>
+        (function () {
+            'use strict';
+
+            const baseUrl = document.querySelector('base').href;
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                    navigator.serviceWorker.register(baseUrl + 'service-worker.js');
+                });
+            }
+
+            window.WebFontConfig = {google: {families: ['Pontano+Sans::latin'] } };
+        })();
+    </script>
+    <script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js" async></script>
+
+    <link rel="import" href="src/my-app.html">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Pontano Sans', 'Helvetica', sans-serif;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            background-image: linear-gradient(-45deg, #f0f0f0, #c7c7c7);
+        }
+    </style>
+</head>
+<body>
+    <my-app></my-app>
+    <noscript>
+        Please enable JavaScript to view this website.
+    </noscript>
+</body>
+</html>

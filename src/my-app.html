@@ -1,0 +1,155 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+<link rel="import" href="my-header.html">
+<link rel="import" href="my-socials.html">
+<link rel="import" href="my-footer.html">
+
+<link rel="lazy-import" href="my-view-about.html">
+<link rel="lazy-import" href="my-view-posts.html">
+<link rel="lazy-import" href="my-view-projects.html">
+<link rel="lazy-import" href="my-view-impress.html">
+<link rel="lazy-import" href="my-view-404.html">
+
+<dom-module id="my-app">
+    <template>
+        <style>
+            :host {
+                --background-color: #f0f0f0;
+                --background-secondary-color: #c7c7c7;
+                --text-color: #000000;
+                --font-family: 'Pontano Sans', 'Helvetica', sans-serif;
+
+                display: block;
+                max-width: 500px;
+                padding: 0 0.5em;
+                margin: 0 auto;
+                position: relative;
+            }
+
+            #messages {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            #messages li {
+                background-color: #D2D2D2;
+                margin: 0.5em 0;
+                padding: 0.5em;
+                border-radius: .3em;
+            }
+        </style>
+
+        <app-location route="{{route}}"></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="[[routeRootPattern]]:page"
+                data="{{routeData}}"
+                tail="{{routeTail}}"></app-route>
+
+        <my-header
+                page-path="[[routeData.page]]"
+                page-title="[[pageTitle]]"></my-header>
+
+        <iron-pages
+                selected="[[page]]"
+                attr-for-selected="name"
+                fallback-selection="404"
+                role="main">
+            <my-view-about name="about" on-page-title-changed="_viewPageTitleChanged"></my-view-about>
+            <my-view-posts name="posts" route="[[routeTail]]" on-page-title-changed="_viewPageTitleChanged"></my-view-posts>
+            <my-view-projects name="projects" route="[[routeTail]]" on-page-title-changed="_viewPageTitleChanged"></my-view-projects>
+            <my-view-impress name="impress" on-page-title-changed="_viewPageTitleChanged"></my-view-impress>
+            <my-view-404 name="404" on-page-title-changed="_viewPageTitleChanged"></my-view-404>
+        </iron-pages>
+
+        <my-socials></my-socials>
+        <my-footer></my-footer>
+    </template>
+
+    <script>
+        class MyApp extends Polymer.Element {
+            static get is() {
+                return 'my-app';
+            }
+
+            static get properties() {
+                return {
+                    page: {
+                        type: String,
+                        observer: '_pageChanged'
+                    },
+                    pageTitle: {
+                        type: String,
+                        observer: '_pageTitleChanged'
+                    },
+                    routeRootPattern: String,
+                    routeData: Object,
+                    routeTail: String
+                };
+            }
+
+            static get observers() {
+                return [
+                    '_routePageChanged(routeData.page)'
+                ];
+            }
+
+            constructor() {
+                super();
+
+                // Get root pattern for app-route, for more info about `rootPath` see:
+                // https://www.polymer-project.org/2.0/docs/upgrade#urls-in-templates
+                this.routeRootPattern = new URL(this.rootPath).pathname;
+            }
+
+            _routePageChanged(page) {
+                if (page === undefined) {
+                    return;
+                }
+
+                this.page = page || 'about';
+            }
+
+            _pageChanged(page) {
+                const resolvedPageUrl = this.resolveUrl(`my-view-${page}.html`);
+                Polymer.importHref(
+                    resolvedPageUrl,
+                    this._viewLoaded.bind(this),
+                    this._showPage404.bind(this),
+                    true);
+            }
+
+            _pageTitleChanged(pageTitle) {
+                if (!this.routeData.page) {
+                    document.title = 'Jan Kühle';
+                } else {
+                    document.title = `${pageTitle} - Jan Kühle`;
+                }
+            }
+
+            _viewLoaded() {
+                const view = this.shadowRoot.querySelector(`my-view-${this.page}`);
+                if (view) {
+                    this.pageTitle = view.pageTitle;
+                }
+            }
+
+            _viewPageTitleChanged(event) {
+                if (event.target.getAttribute('name') === this.page) {
+                    this.pageTitle = event.detail.value;
+                }
+            }
+
+            _showPage404() {
+                this.page = '404';
+            }
+        }
+
+        window.customElements.define(MyApp.is, MyApp);
+    </script>
+</dom-module>

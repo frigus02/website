@@ -1,0 +1,39 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="my-socials">
+    <template>
+        <style>
+            aside {
+                margin-top: 1em;
+                text-align: center;
+            }
+
+            @media (min-width: 600px) {
+                aside {
+                    margin: 0;
+                    position: absolute;
+                    right: -40px;
+                    width: 32px;
+                    top: 12em;
+                }
+            }
+        </style>
+
+        <aside>
+            <a href="https://github.com/frigus02"><img src="[[rootPath]]images/github.png" alt="GitHub"></a>
+            <a href="https://plus.google.com/+JanKühle/about"><img src="[[rootPath]]images/google-plus.png" alt="Google+"></a>
+            <a href="https://www.facebook.com/jkuehle90"><img src="[[rootPath]]images/facebook.png" alt="Facebook"></a>
+            <a href="https://www.xing.com/profile/Jan_Kuehle2"><img src="[[rootPath]]images/xing.png" alt="XING"></a>
+        </aside>
+    </template>
+
+    <script>
+        class MySocials extends Polymer.Element {
+            static get is() {
+                return 'my-socials';
+            }
+        }
+
+        window.customElements.define(MySocials.is, MySocials);
+    </script>
+</dom-module>

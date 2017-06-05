@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="my-projects-details.html">
+<link rel="import" href="my-projects-list.html">
+
+<dom-module id="my-view-projects">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <app-route
+                route="{{route}}"
+                pattern="/:project"
+                active="{{showProjectDetails}}"
+                data="{{routeData}}"></app-route>
+
+        <template is="dom-if" if="[[!showProjectDetails]]">
+            <my-projects-list></my-projects-list>
+        </template>
+        <template is="dom-if" if="[[showProjectDetails]]">
+            <my-projects-details project="[[routeData.project]]"></my-projects-details>
+        </template>
+    </template>
+
+    <script>
+        class MyViewProjects extends Polymer.Element {
+            static get is() {
+                return 'my-view-projects';
+            }
+
+            static get properties() {
+                return {
+                    route: Object,
+                    routeData: Object,
+                    showProjectDetails: Boolean,
+                    pageTitle: {
+                        type: String,
+                        value: 'Projects',
+                        readOnly: true
+                    }
+                };
+            }
+        }
+
+        window.customElements.define(MyViewProjects.is, MyViewProjects);
+    </script>
+</dom-module>

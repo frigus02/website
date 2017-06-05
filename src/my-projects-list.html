@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="big-list-style.html">
+<link rel="import" href="content-utils.html">
+
+<dom-module id="my-projects-list">
+    <template>
+        <style include="big-list-style">
+            :host {
+                display: block;
+            }
+
+            img {
+                width: 120px;
+                height: 120px;
+                margin-right: 15px;
+                float: left;
+            }
+
+            .tags {
+                margin-top: 15px;
+                font-size: 0.8em;
+            }
+
+            .tag {
+                padding: 2px 5px;
+                background-color: #ccc;
+                margin: 3px;
+                border-radius: 1px;
+            }
+
+            .clear {
+                clear: left;
+            }
+        </style>
+
+        <ul class="big-list">
+            <dom-repeat items="[[projects]]" as="project">
+                <template>
+                    <li>
+                        <a href="[[rootPath]]projects/[[project.id]]">
+                            <h3>[[project.title]]</h3>
+                            <img src="[[rootPath]]images/projects/[[project.id]]/icon_large.png" alt="">
+                            <div>[[project.short_description]]</div>
+                            <div class="tags">
+                                <dom-repeat items="[[project.tags]]" as="tag">
+                                    <template>
+                                        <span class="tag">[[tag]]</span>
+                                    </template>
+                                </dom-repeat>
+                            </div>
+                            <div class="clear"></div>
+                        </a>
+                    </li>
+                </template>
+            </dom-repeat>
+        </ul>
+    </template>
+
+    <script>
+        class MyProjectsList extends Polymer.Element {
+            static get is() {
+                return 'my-projects-list';
+            }
+
+            static get properties() {
+                return {
+                    projects: {
+                        type: Array,
+                        readOnly: true
+                    }
+                };
+            }
+
+            ready() {
+                super.ready();
+                fetch(`${this.rootPath}data-api/projects/index.json`)
+                    .then(response => response.json())
+                    .then(projects => {
+                        this._setProjects(projects);
+                    });
+            }
+        }
+
+        window.customElements.define(MyProjectsList.is, MyProjectsList);
+    </script>
+</dom-module>
