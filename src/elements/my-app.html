@@ -8,12 +8,6 @@
 <link rel="import" href="my-socials.html">
 <link rel="import" href="my-footer.html">
 
-<link rel="lazy-import" href="my-view-about.html">
-<link rel="lazy-import" href="my-view-posts.html">
-<link rel="lazy-import" href="my-view-projects.html">
-<link rel="lazy-import" href="my-view-impress.html">
-<link rel="lazy-import" href="my-view-404.html">
-
 <dom-module id="my-app">
     <template>
         <style>
@@ -28,19 +22,6 @@
                 padding: 0 0.5em;
                 margin: 0 auto;
                 position: relative;
-            }
-
-            #messages {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
-
-            #messages li {
-                background-color: #D2D2D2;
-                margin: 0.5em 0;
-                padding: 0.5em;
-                border-radius: .3em;
             }
         </style>
 
@@ -59,6 +40,7 @@
                 selected="[[page]]"
                 attr-for-selected="name"
                 fallback-selection="404"
+                selected-attribute="active"
                 role="main">
             <my-view-about name="about" on-page-title-changed="_viewPageTitleChanged"></my-view-about>
             <my-view-posts name="posts" route="[[routeTail]]" on-page-title-changed="_viewPageTitleChanged"></my-view-posts>
@@ -89,7 +71,11 @@
                     },
                     routeRootPattern: String,
                     routeData: Object,
-                    routeTail: String
+                    routeTail: String,
+
+                    // This shouldn't be neccessary, but the Analyzer isn't picking up
+                    // Polymer.Element#rootPath
+                    rootPath: String
                 };
             }
 

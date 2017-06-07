@@ -1,24 +1,25 @@
 {
     "entrypoint": "index.html",
-    "shell": "src/my-app.html",
+    "shell": "elements/my-app.html",
     "fragments": [
-        "src/my-view-404.html",
-        "src/my-view-about.html",
-        "src/my-view-impress.html",
-        "src/my-view-posts.html",
-        "src/my-view-projects.html"
+        "elements/my-view-404.html",
+        "elements/my-view-about.html",
+        "elements/my-view-impress.html",
+        "elements/my-view-posts.html",
+        "elements/my-view-projects.html"
     ],
     "sources": [
-        "src/**/*",
+        "elements/**/*",
         "images/**/*",
-        "data-api/**/*",
-        "bower.json"
+        "api/**/*",
+        "feeds/**/*"
     ],
     "extraDependencies": [
         "bower_components/webcomponentsjs/*.js"
     ],
     "lint": {
-        "rules": ["polymer-2"]
+        "rules": ["polymer-2"],
+        "ignoreWarnings": ["undefined-elements"]
     },
     "builds": [{
         "addServiceWorker": true,

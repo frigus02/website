@@ -25,7 +25,11 @@
                         type: String,
                         value: '404',
                         readOnly: true
-                    }
+                    },
+
+                    // This shouldn't be neccessary, but the Analyzer isn't picking up
+                    // Polymer.Element#rootPath
+                    rootPath: String
                 };
             }
         }

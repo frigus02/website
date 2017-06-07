@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+
 <link rel="import" href="button-style.html">
 
 <dom-module id="my-view-about">
@@ -85,7 +86,11 @@
                         type: String,
                         value: 'About',
                         readOnly: true
-                    }
+                    },
+
+                    // This shouldn't be neccessary, but the Analyzer isn't picking up
+                    // Polymer.Element#rootPath
+                    rootPath: String
                 };
             }
         }

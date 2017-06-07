@@ -11,27 +11,10 @@
                 text-align: center;
                 margin: 2em 0;
             }
-
-            footer ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-            }
-
-            footer ul li {
-                display: inline-block;
-            }
-
-            footer ul li + li:before {
-                content: ' | ';
-            }
         </style>
 
         <footer>
-            <ul>
-                <li><a href="[[rootPath]]contact">Contact me</a></li>
-                <li><a href="[[rootPath]]impress">Impress</a></li>
-            </ul>
+            <a href="[[rootPath]]impress">Impress</a>
         </footer>
     </template>
 
@@ -39,6 +22,14 @@
         class MyFooter extends Polymer.Element {
             static get is() {
                 return 'my-footer';
+            }
+
+            static get properties() {
+                return {
+                    // This shouldn't be neccessary, but the Analyzer isn't picking up
+                    // Polymer.Element#rootPath
+                    rootPath: String
+                };
             }
         }
 

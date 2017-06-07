@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+
 <link rel="import" href="big-list-style.html">
 <link rel="import" href="content-utils.html">
 
@@ -34,25 +35,21 @@
         </style>
 
         <ul class="big-list">
-            <dom-repeat items="[[projects]]" as="project">
-                <template>
-                    <li>
-                        <a href="[[rootPath]]projects/[[project.id]]">
-                            <h3>[[project.title]]</h3>
-                            <img src="[[rootPath]]images/projects/[[project.id]]/icon_large.png" alt="">
-                            <div>[[project.short_description]]</div>
-                            <div class="tags">
-                                <dom-repeat items="[[project.tags]]" as="tag">
-                                    <template>
-                                        <span class="tag">[[tag]]</span>
-                                    </template>
-                                </dom-repeat>
-                            </div>
-                            <div class="clear"></div>
-                        </a>
-                    </li>
-                </template>
-            </dom-repeat>
+            <template is="dom-repeat" items="[[projects]]" as="project">
+                <li>
+                    <a href="[[rootPath]]projects/[[project.id]]">
+                        <h3>[[project.title]]</h3>
+                        <img src="[[rootPath]]images/projects/[[project.id]]/icon_large.png" alt="">
+                        <div>[[project.short_description]]</div>
+                        <div class="tags">
+                            <template is="dom-repeat" items="[[project.tags]]" as="tag">
+                                <span class="tag">[[tag]]</span>
+                            </template>
+                        </div>
+                        <div class="clear"></div>
+                    </a>
+                </li>
+            </template>
         </ul>
     </template>
 
@@ -67,13 +64,17 @@
                     projects: {
                         type: Array,
                         readOnly: true
-                    }
+                    },
+
+                    // This shouldn't be neccessary, but the Analyzer isn't picking up
+                    // Polymer.Element#rootPath
+                    rootPath: String
                 };
             }
 
             ready() {
                 super.ready();
-                fetch(`${this.rootPath}data-api/projects/index.json`)
+                fetch(`${this.rootPath}api/projects/index.json`)
                     .then(response => response.json())
                     .then(projects => {
                         this._setProjects(projects);

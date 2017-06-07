@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
+
 <link rel="import" href="my-projects-details.html">
 <link rel="import" href="my-projects-list.html">
 
@@ -11,11 +12,13 @@
             }
         </style>
 
-        <app-route
-                route="{{route}}"
-                pattern="/:project"
-                active="{{showProjectDetails}}"
-                data="{{routeData}}"></app-route>
+        <template is="dom-if" if="[[active]]" restamp>
+            <app-route
+                    route="{{route}}"
+                    pattern="/:project"
+                    active="{{showProjectDetails}}"
+                    data="{{routeData}}"></app-route>
+        </template>
 
         <template is="dom-if" if="[[!showProjectDetails]]">
             <my-projects-list></my-projects-list>
@@ -33,6 +36,7 @@
 
             static get properties() {
                 return {
+                    active: Boolean,
                     route: Object,
                     routeData: Object,
                     showProjectDetails: Boolean,

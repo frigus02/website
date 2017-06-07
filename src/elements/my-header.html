@@ -29,11 +29,9 @@
 
         <header>
             <h1><a href="[[rootPath]]">Jan Kühle</a></h1>
-            <dom-if if="[[pagePath]]">
-                <template>
-                    <h2><a href="[[rootPath]][[pagePath]]">[[pageTitle]]</a></h2>
-                </template>
-            </dom-if>
+            <template is="dom-if" if="[[pagePath]]">
+                <h2><a href="[[rootPath]][[pagePath]]">[[pageTitle]]</a></h2>
+            </template>
         </header>
     </template>
 
@@ -46,7 +44,11 @@
             static get properties() {
                 return {
                     pagePath: String,
-                    pageTitle: String
+                    pageTitle: String,
+
+                    // This shouldn't be neccessary, but the Analyzer isn't picking up
+                    // Polymer.Element#rootPath
+                    rootPath: String
                 };
             }
         }

@@ -1,4 +1,5 @@
-bower_components/
-build/
 node_modules/
-data-api/
+src/api/
+src/build/
+src/bower_components/
+src/feeds/

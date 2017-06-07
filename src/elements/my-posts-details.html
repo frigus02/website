@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/marked-element/marked-element.html">
+
 <link rel="import" href="content-utils.html">
 
 <dom-module id="my-posts-details">
@@ -88,7 +89,7 @@
                     return;
                 }
 
-                fetch(`${this.rootPath}data-api/posts/${post}.md`)
+                fetch(`${this.rootPath}api/posts/${post}.md`)
                     .then(response => response.text())
                     .then(post => {
                         const data = window.kuehle.parseMarkdown(post);
