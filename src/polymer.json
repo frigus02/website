@@ -12,7 +12,8 @@
         "elements/**/*",
         "images/**/*",
         "api/**/*",
-        "feeds/**/*"
+        "feeds/**/*",
+        ".htaccess"
     ],
     "extraDependencies": [
         "bower_components/webcomponentsjs/*.js"
