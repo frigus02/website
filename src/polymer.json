@@ -16,7 +16,7 @@
         ".htaccess"
     ],
     "extraDependencies": [
-        "bower_components/webcomponentsjs/*.js"
+        "bower_components/webcomponentsjs/webcomponents-*.js"
     ],
     "lint": {
         "rules": ["polymer-2"],
