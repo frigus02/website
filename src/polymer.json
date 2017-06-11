@@ -13,7 +13,8 @@
         "images/**/*",
         "api/**/*",
         "feeds/**/*",
-        ".htaccess"
+        ".htaccess",
+        "favicon.ico"
     ],
     "extraDependencies": [
         "bower_components/webcomponentsjs/webcomponents-*.js"

@@ -6,7 +6,8 @@ module.exports = {
     staticFileGlobs: [
         'index.html',
         'bower_components/webcomponentsjs/webcomponents-*.js',
-        'images/*'
+        'images/*',
+        'favicon.ico'
     ],
     navigateFallback: 'index.html'
 };
