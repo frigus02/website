@@ -7,6 +7,7 @@
     ],
     "getit": [
         { "location": "amo", "url": "https://addons.mozilla.org/de/firefox/addon/rester" },
+        { "location": "chrome", "url": "https://chrome.google.com/webstore/detail/rester/eejfoncpjfgmeleakejdcanedmefagga" },
         { "location": "git", "url": "https://github.com/frigus02/RESTer" }
     ],
     "tags": ["Browser Extension", "HTML5", "WebComponents"]

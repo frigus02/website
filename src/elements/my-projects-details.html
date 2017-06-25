@@ -86,6 +86,9 @@
                         <template is="dom-if" if="[[_isAMO(source)]]">
                             <img src="[[rootPath]]images/projects/amo.png" alt="Get it on AMO">
                         </template>
+                        <template is="dom-if" if="[[_isChromeWebStore(source)]]">
+                            <img src="[[rootPath]]images/projects/chromewebstore.png" alt="Get it on the Chrome Web Store">
+                        </template>
                     </a>
                 </template>
             </section>
@@ -162,6 +165,10 @@
 
             _isAMO(source) {
                 return source.location === 'amo';
+            }
+
+            _isChromeWebStore(source) {
+                return source.location === 'chrome';
             }
         }
 
