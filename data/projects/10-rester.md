@@ -10,7 +10,7 @@
         { "location": "chrome", "url": "https://chrome.google.com/webstore/detail/rester/eejfoncpjfgmeleakejdcanedmefagga" },
         { "location": "git", "url": "https://github.com/frigus02/RESTer" }
     ],
-    "tags": ["Browser Extension", "HTML5", "WebComponents"]
+    "tags": ["Browser Extension", "HTML5", "Web Components"]
 }
 ```
 

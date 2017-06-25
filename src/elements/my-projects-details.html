@@ -76,7 +76,7 @@
             </section>
             <section class="getit">
                 <template is="dom-repeat" items="[[projectSources]]" as="source">
-                    <a href="[[source.url]]">
+                    <a href="[[source.url]]" target="_blank">
                         <template is="dom-if" if="[[_isGooglePlay(source)]]">
                             <img src="http://www.android.com/images/brand/get_it_on_play_logo_small.png" alt="Get it on Google Play">
                         </template>
@@ -88,6 +88,9 @@
                         </template>
                         <template is="dom-if" if="[[_isChromeWebStore(source)]]">
                             <img src="[[rootPath]]images/projects/chromewebstore.png" alt="Get it on the Chrome Web Store">
+                        </template>
+                        <template is="dom-if" if="[[_isTryIt(source)]]">
+                            <img src="[[rootPath]]images/projects/tryit.png" alt="Try it in the browser">
                         </template>
                     </a>
                 </template>
@@ -155,6 +158,11 @@
                     });
             }
 
+            _openSource(e) {
+                e.preventDefault();
+                window.open(e.model.source.url);
+            }
+
             _isGooglePlay(source) {
                 return source.location === 'googleplay';
             }
@@ -169,6 +177,10 @@
 
             _isChromeWebStore(source) {
                 return source.location === 'chrome';
+            }
+
+            _isTryIt(source) {
+                return source.location === 'try';
             }
         }
 
