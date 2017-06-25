@@ -9,5 +9,6 @@ module.exports = {
         'images/*',
         'favicon.ico'
     ],
-    navigateFallback: 'index.html'
+    navigateFallback: 'index.html',
+    navigateFallbackWhitelist: [/^\/(projects|posts|impress)\//]
 };
