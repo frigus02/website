@@ -11,8 +11,7 @@
             }
 
             .logo {
-                float: left;
-                margin: 0 1em 1em 0;
+                float: right;
                 width: 48px;
                 height: 48px;
             }
@@ -54,8 +53,8 @@
 
         <article>
             <header>
+                <img class="logo" src="[[rootPath]]images/projects/[[project]]/icon_large.png" alt="">
                 <h3>[[projectTitle]]</h3>
-                <img class="logo" src="[[rootPath]]images/projects/[[project]]/icon.png" alt="">
             </header>
             <section class="description">
                 <marked-element markdown="[[projectDescription]]">
@@ -99,7 +98,11 @@
     </template>
 
     <script>
-        class MyProjectsDetails extends Polymer.Element {
+        /**
+         * @mixes kuehle.LoadingMixin
+         * @polymerElement
+         */
+        class MyProjectsDetails extends kuehle.LoadingMixin(Polymer.Element) {
             static get is() {
                 return 'my-projects-details';
             }
@@ -139,13 +142,21 @@
 
             _projectChanged(project) {
                 if (!project) {
+                    this._notifyLoadingChanged(false);
                     return;
                 }
+
+                this._notifyLoadingChanged(true);
+                this._setProjectTitle('');
+                this._setProjectTags([]);
+                this._setProjectImages([]);
+                this._setProjectSources([]);
+                this._setProjectDescription('');
 
                 fetch(`${this.rootPath}api/projects/${project}.md`)
                     .then(response => response.text())
                     .then(projectData => {
-                        const data = window.kuehle.parseMarkdown(projectData);
+                        const data = kuehle.parseMarkdown(projectData);
                         this._setProjectTitle(data.metadata.title);
                         this._setProjectTags(data.metadata.tags);
                         this._setProjectImages(data.metadata.images.map(image => {
@@ -155,6 +166,7 @@
                         }));
                         this._setProjectSources(data.metadata.getit);
                         this._setProjectDescription(data.content);
+                        this._notifyLoadingChanged(false);
                     });
             }
 

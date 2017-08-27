@@ -59,7 +59,11 @@
     </template>
 
     <script>
-        class MyProjectsList extends Polymer.Element {
+        /**
+         * @mixes kuehle.LoadingMixin
+         * @polymerElement
+         */
+        class MyProjectsList extends kuehle.LoadingMixin(Polymer.Element) {
             static get is() {
                 return 'my-projects-list';
             }
@@ -79,10 +83,12 @@
 
             ready() {
                 super.ready();
+                this._notifyLoadingChanged(true);
                 fetch(`${this.rootPath}api/projects/index.json`)
                     .then(response => response.json())
                     .then(projects => {
                         this._setProjects(projects);
+                        this._notifyLoadingChanged(false);
                     });
             }
         }

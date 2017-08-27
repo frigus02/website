@@ -16,6 +16,7 @@
     },
     "rules": {
         "indent": [2, 4, {"SwitchCase": 1}],
+        "new-cap": [2, {"capIsNewExceptionPattern": "Mixin$"}],
         "no-plusplus": 0,
         "no-underscore-dangle": 0,
         "no-use-before-define": 0,
@@ -25,6 +26,7 @@
         "wrap-iife": [2, "inside"]
     },
     "globals": {
-        "Polymer": true
+        "Polymer": true,
+        "kuehle": true
     }
 }

@@ -47,7 +47,11 @@
     </template>
 
     <script>
-        class MyPostsList extends Polymer.Element {
+        /**
+         * @mixes kuehle.LoadingMixin
+         * @polymerElement
+         */
+        class MyPostsList extends kuehle.LoadingMixin(Polymer.Element) {
             static get is() {
                 return 'my-posts-list';
             }
@@ -67,14 +71,16 @@
 
             ready() {
                 super.ready();
+                this._notifyLoadingChanged(true);
                 fetch(`${this.rootPath}api/posts/index.json`)
                     .then(response => response.json())
                     .then(posts => {
                         posts.forEach(post => {
-                            post.datetime = window.kuehle.formatDate(post.datetime);
+                            post.datetime = kuehle.formatDate(post.datetime);
                         });
 
                         this._setPosts(posts);
+                        this._notifyLoadingChanged(false);
                     });
             }
         }

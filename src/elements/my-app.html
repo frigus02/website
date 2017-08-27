@@ -2,6 +2,7 @@
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
 
 <link rel="import" href="my-header.html">
 <link rel="import" href="my-socials.html">
@@ -19,6 +20,11 @@
                 margin: 0 auto;
                 position: relative;
             }
+
+            paper-progress {
+                width: 100%;
+                --paper-progress-active-color: #999;
+            }
         </style>
 
         <app-location route="{{route}}"></app-location>
@@ -31,18 +37,21 @@
         <my-header
                 page-path="[[routeData.page]]"
                 page-title="[[pageTitle]]"></my-header>
+        <paper-progress indeterminate hidden$="[[!loading]]"></paper-progress>
 
         <iron-pages
                 selected="[[page]]"
                 attr-for-selected="name"
                 fallback-selection="404"
                 selected-attribute="active"
-                role="main">
-            <my-view-about name="about" on-page-title-changed="_viewPageTitleChanged"></my-view-about>
-            <my-view-posts name="posts" route="[[routeTail]]" on-page-title-changed="_viewPageTitleChanged"></my-view-posts>
-            <my-view-projects name="projects" route="[[routeTail]]" on-page-title-changed="_viewPageTitleChanged"></my-view-projects>
-            <my-view-impress name="impress" on-page-title-changed="_viewPageTitleChanged"></my-view-impress>
-            <my-view-404 name="404" on-page-title-changed="_viewPageTitleChanged"></my-view-404>
+                role="main"
+                on-page-title-changed="_viewPageTitleChanged"
+                on-loading-changed="_viewLoadingChanged">
+            <my-view-about name="about"></my-view-about>
+            <my-view-posts name="posts" route="[[routeTail]]"></my-view-posts>
+            <my-view-projects name="projects" route="[[routeTail]]"></my-view-projects>
+            <my-view-impress name="impress"></my-view-impress>
+            <my-view-404 name="404"></my-view-404>
         </iron-pages>
 
         <my-socials></my-socials>
@@ -68,6 +77,10 @@
                     routeRootPattern: String,
                     routeData: Object,
                     routeTail: String,
+                    loading: {
+                        type: Boolean,
+                        value: true
+                    },
 
                     // This shouldn't be neccessary, but the Analyzer isn't picking up
                     // Polymer.Element#rootPath
@@ -98,6 +111,9 @@
             }
 
             _pageChanged(page) {
+                this.loading = true;
+                this.pageTitle = '';
+
                 const resolvedPageUrl = this.resolveUrl(`my-view-${page}.html`);
                 Polymer.importHref(
                     resolvedPageUrl,
@@ -117,6 +133,7 @@
             _viewLoaded() {
                 const view = this.shadowRoot.querySelector(`my-view-${this.page}`);
                 if (view) {
+                    this.loading = false;
                     this.pageTitle = view.pageTitle;
                 }
             }
@@ -124,6 +141,13 @@
             _viewPageTitleChanged(event) {
                 if (event.target.getAttribute('name') === this.page) {
                     this.pageTitle = event.detail.value;
+                }
+            }
+
+            _viewLoadingChanged(event) {
+                const view = event.composedPath().find(node => node.nodeName.startsWith('MY-VIEW-'));
+                if (view.getAttribute('name') === this.page) {
+                    this.loading = event.detail.value;
                 }
             }
 

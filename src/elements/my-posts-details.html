@@ -54,7 +54,11 @@
     </template>
 
     <script>
-        class MyPostsDetails extends Polymer.Element {
+        /**
+         * @mixes kuehle.LoadingMixin
+         * @polymerElement
+         */
+        class MyPostsDetails extends kuehle.LoadingMixin(Polymer.Element) {
             static get is() {
                 return 'my-posts-details';
             }
@@ -86,17 +90,25 @@
 
             _postChanged(post) {
                 if (!post) {
+                    this._notifyLoadingChanged(false);
                     return;
                 }
+
+                this._notifyLoadingChanged(true);
+                this._setPostTitle('');
+                this._setPostDatetime('');
+                this._setPostTags([]);
+                this._setPostText('');
 
                 fetch(`${this.rootPath}api/posts/${post}.md`)
                     .then(response => response.text())
                     .then(post => {
-                        const data = window.kuehle.parseMarkdown(post);
+                        const data = kuehle.parseMarkdown(post);
                         this._setPostTitle(data.metadata.title);
-                        this._setPostDatetime(window.kuehle.formatDate(data.metadata.datetime));
+                        this._setPostDatetime(kuehle.formatDate(data.metadata.datetime));
                         this._setPostTags(data.metadata.tags);
                         this._setPostText(data.content);
+                        this._notifyLoadingChanged(false);
                     });
             }
         }

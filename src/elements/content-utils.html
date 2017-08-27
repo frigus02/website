@@ -9,7 +9,7 @@
 
         window.kuehle = {};
 
-        window.kuehle.formatDate = function (date) {
+        kuehle.formatDate = function (date) {
             date = new Date(date);
 
             const year = date.getFullYear();
@@ -21,7 +21,7 @@
             return `${year}-${month}-${day} ${hour}:${minute}`;
         };
 
-        window.kuehle.parseMarkdown = function (text) {
+        kuehle.parseMarkdown = function (text) {
             const metadataStart = text.indexOf('```json') + 7;
             const metadataEnd = text.indexOf('```', metadataStart);
             const metadata = text.substring(metadataStart, metadataEnd);
@@ -32,6 +32,19 @@
                 metadata: JSON.parse(metadata),
                 content
             };
+        };
+
+        /**
+         * @polymerMixin
+         */
+        kuehle.LoadingMixin = superclass => class LoadingMixin extends superclass {
+            _notifyLoadingChanged(loading) {
+                this.dispatchEvent(new CustomEvent('loading-changed', {
+                    bubbles: true,
+                    composed: true,
+                    detail: { value: loading }
+                }));
+            }
         };
     })();
 </script>
