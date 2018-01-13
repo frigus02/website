@@ -17,7 +17,8 @@
         "favicon.ico"
     ],
     "extraDependencies": [
-        "bower_components/webcomponentsjs/webcomponents-*.js"
+        "bower_components/webcomponentsjs/webcomponents-*.js",
+        "custom-webcomponents-loader.js"
     ],
     "lint": {
         "rules": ["polymer-2"],
