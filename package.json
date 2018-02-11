@@ -13,10 +13,10 @@
   "scripts": {
     "postinstall": "bower install",
     "start": "cd src && polymer serve",
-    "lint": "npm run lint:javascript && npm run lint:polymer",
+    "lint": "yarn lint:javascript && yarn lint:polymer",
     "lint:javascript": "eslint src --ext js,html --ignore-path .gitignore",
     "lint:polymer": "cd src && polymer lint",
-    "build": "npm run build:data && npm run build:polymer",
+    "build": "yarn build:data && yarn build:polymer",
     "build:data": "node tools/create-data-index.js",
     "build:polymer": "cd src && polymer build"
   }
