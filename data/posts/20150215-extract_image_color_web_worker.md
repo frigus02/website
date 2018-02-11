@@ -81,4 +81,4 @@ Then in the worker.js file, we have the following code:
 I made up a full example with and without web workers, so you can see the impact it has on the
 overall performance:
 
-[http://embed.plnkr.co/s1KlIF/preview](http://embed.plnkr.co/s1KlIF/preview)
+[https://embed.plnkr.co/s1KlIF/preview](https://embed.plnkr.co/s1KlIF/preview)

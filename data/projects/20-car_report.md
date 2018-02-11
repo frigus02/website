@@ -9,7 +9,7 @@
         { "name": "calculator_phone", "alt": "Calculator on phone" }
     ],
     "getit": [
-        { "location": "googleplay", "url": "http://play.google.com/store/apps/details?id=me.kuehle.carreport" },
+        { "location": "googleplay", "url": "https://play.google.com/store/apps/details?id=me.kuehle.carreport" },
         { "location": "git", "url": "https://bitbucket.org/frigus02/car-report/" }
     ],
     "tags": ["Android", "Java"]

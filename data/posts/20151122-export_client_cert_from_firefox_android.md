@@ -29,7 +29,7 @@ other OS.
 
         adb backup org.mozilla.firefox
 
-4.  Download the [Android Backup Extractor](http://sourceforge.net/projects/adbextractor/).
+4.  Download the [Android Backup Extractor](https://sourceforge.net/projects/adbextractor/).
     It's a tool to convert ADB backup files to tar archives, which you can easily extract.
     Use it with your backup:
 
