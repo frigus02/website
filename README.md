@@ -5,8 +5,8 @@ This is the source of my private website [kuehle.me](https://kuehle.me).
 ## Build
 
 ```
-npm install -g polymer-cli
-npm install
-npm run build:data
-npm start
+yarn global add polymer-cli
+yarn install
+yarn build:data
+yarn start
 ```
