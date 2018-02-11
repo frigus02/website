@@ -6,7 +6,6 @@ module.exports = {
     staticFileGlobs: [
         'index.html',
         'bower_components/webcomponentsjs/webcomponents-*.js',
-        'custom-webcomponents-loader.js',
         'images/*',
         'favicon.ico'
     ],
