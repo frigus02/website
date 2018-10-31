@@ -43,10 +43,13 @@
 
             .getit a {
                 display: inline-block;
+                margin-right: 5px;
+                margin-bottom: 5px;
             }
 
             .images img,
             .getit img {
+                height: 45px;
                 vertical-align: bottom;
             }
         </style>
@@ -77,7 +80,7 @@
                 <template is="dom-repeat" items="[[projectSources]]" as="source">
                     <a href="[[source.url]]" target="_blank">
                         <template is="dom-if" if="[[_isGooglePlay(source)]]">
-                            <img src="https://www.android.com/images/brand/get_it_on_play_logo_small.png" alt="Get it on Google Play">
+                            <img src="[[rootPath]]images/projects/google-play.png" alt="Get it on Google Play">
                         </template>
                         <template is="dom-if" if="[[_isGit(source)]]">
                             <img src="[[rootPath]]images/projects/git.png" alt="Get the source">
