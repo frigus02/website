@@ -1,11 +1,11 @@
-```json
-{
-    "title": "Extract color from image using JavaScript and Web Worker",
-    "summary": "A demonstration of how to extract the dominant color of an image with pure JavaScript. For performance optimization I utilized a web worker, which had a great impact.",
-    "datetime": "2015-02-15T14:28:00+01:00",
-    "tags": ["JavaScript", "Web Worker"]
-}
-```
+---
+title: Extract color from image using JavaScript and Web Worker
+summary: A demonstration of how to extract the dominant color of an image with pure JavaScript. For performance optimization I utilized a web worker, which had a great impact.
+datetime: 2015-02-15T14:28:00+01:00
+tags:
+    - JavaScript
+    - Web Worker
+---
 
 In the last week I was presented with the task to automatically extract a color from an
 image in a webpage and use this as the background color. A quick research resulted in the

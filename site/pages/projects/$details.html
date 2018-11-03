@@ -23,8 +23,8 @@ title: "{{ .Title }}"
         {{- end -}}
     </section>
     <section class="projects-details-getit">
-        {{- range _, $source := .GetIt -}}
-        <a href="{{ $source.Url }}" target="_blank">
+        {{- range _, $source := .Sources -}}
+        <a href="{{ $source.URL }}" target="_blank">
             {{- if eq $source.Type "googleplay" -}}
             <img src="images/projects/google-play.png" alt="Get it on Google Play">
             {{- else if eq $source.Type "git" -}}
@@ -33,7 +33,7 @@ title: "{{ .Title }}"
             <img src="images/projects/amo.png" alt="Get it on AMO">
             {{- else if eq $source.Type "chromewebstore" -}}
             <img src="images/projects/chromewebstore.png" alt="Get it on the Chrome Web Store">
-            {{- else if eq $source.Type "tryit" -}}
+            {{- else if eq $source.Type "try" -}}
             <img src="images/projects/tryit.png" alt="Try it in the browser">
             {{- end -}}
         </a>

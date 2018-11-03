@@ -1,11 +1,13 @@
-```json
-{
-    "title": "Export a client certificate from Firefox on Android without root",
-    "summary": "Exporting a client certificate, which is installed in Firefox on an Android phone can be difficult. Especially when you need the private key and your phone is not rooted. Here's a way.",
-    "datetime": "2015-11-22T15:04:00+01:00",
-    "tags": ["Firefox", "Android", "Client Certificate", "ADB"]
-}
-```
+---
+title: Export a client certificate from Firefox on Android without root
+summary: Exporting a client certificate, which is installed in Firefox on an Android phone can be difficult. Especially when you need the private key and your phone is not rooted. Here's a way.
+datetime: 2015-11-22T15:04:00+01:00
+tags:
+    - Firefox
+    - Android
+    - Client Certificate
+    - ADB
+---
 
 When I set up an SSL certificate for this website I created an account on startssl.com.
 I finished the account creation on my smartphone with Firefox. During this process a
