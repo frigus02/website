@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <meta name="theme-color" content="#c7c7c7">
+
+    <base href="/">
+    <link rel="shortcut icon" href="favicon.ico"/>
+
+    <title>Jan Kühle</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pontano+Sans">
+    <link rel="stylesheet" href="styles/{{ .Stylesheet }}">
+</head>
+<body>
+    <header class="header">
+        <h1><a href="/">Jan Kühle</a></h1>
+        {{- if eq .ParentID "posts" "projects" -}}
+        <h2><a href="/{{ .ParentID }}">{{ .ParentTitle }}</a></h2>
+        {{- else if ne .ID "index" -}}
+        <h2><a href="/{{ .ID }}">{{ .Title }}</a></h2>
+        {{- end -}}
+    </header>
+
+    <div class="content">
+        {{ .Content }}
+    </div>
+
+    <aside class="socials">
+        <a href="https://github.com/frigus02" title="GitHub"><img src="images/socials/github.png" alt="GitHub"></a>
+        <a href="https://stackoverflow.com/users/1798215/jan" title="Stack Overflow"><img src="images/socials/stack-overflow.png" alt="Stack Overflow"></a>
+        <a href="https://twitter.com/frigus02" title="Twitter"><img src="images/socials/twitter.png" alt="Twitter"></a>
+    </aside>
+
+    <footer class="footer">
+        <a href="/impress">Impress</a>
+    </footer>
+</body>
+</html>

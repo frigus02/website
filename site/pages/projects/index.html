@@ -1,0 +1,21 @@
+---
+title: "Projects"
+---
+
+<ul class="big-list">
+    {{- range _, $project := .Projects -}}
+    <li>
+        <a href="/projects/{{ $project.ID }}">
+            <h3>{{ $project.Title }}</h3>
+            <img class="projects-icon" src="images/projects/{{ $project.ID }}/icon_large.png" alt="">
+            <div class="projects-description">{{ $project.ShortDescription }}</div>
+            <div class="projects-tags">
+                {{- range _, $tag := $project.Tags -}}
+                <span class="projects-tag">{{ $tag }}</span>
+                {{- end -}}
+            </div>
+            <div class="projects-clear"></div>
+        </a>
+    </li>
+    {{- end -}}
+</ul>

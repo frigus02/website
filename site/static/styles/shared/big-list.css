@@ -1,0 +1,27 @@
+.big-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.big-list li {
+    background-color: #eee;
+    border-radius: 3px;
+    padding: 20px;
+    transition: background-color 0.2s;
+    margin-bottom: 20px;
+}
+
+.big-list li:hover {
+    background-color: #bbb;
+}
+
+.big-list li > a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.big-list h3 {
+    margin: 0 0 15px;
+}

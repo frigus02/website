@@ -1,0 +1,42 @@
+---
+title: "{{ .Title }}"
+---
+
+<article>
+    <header>
+        <img class="projects-details-logo" src="images/projects/{{ .ID }}/icon_large.png" alt="">
+        <h3>{{ .Title }}</h3>
+    </header>
+    <section>
+        {{ .Content }}
+    </section>
+    <section class="projects-details-tags">
+        {{- range _, $tag := .Tags -}}
+        <span class="projects-details-tag">{{ $tag }}</span>
+        {{- end -}}
+    </section>
+    <section class="projects-details-images">
+        {{- range _, $image := .Images -}}
+        <a href="{{ $image.Url }}" target="_blank">
+            <img src="{{ $image.ThumbUrl }}" alt="{{ $image.Alt }}">
+        </a>
+        {{- end -}}
+    </section>
+    <section class="projects-details-getit">
+        {{- range _, $source := .GetIt -}}
+        <a href="{{ $source.Url }}" target="_blank">
+            {{- if eq $source.Type "googleplay" -}}
+            <img src="images/projects/google-play.png" alt="Get it on Google Play">
+            {{- else if eq $source.Type "git" -}}
+            <img src="images/projects/git.png" alt="Get the $source">
+            {{- else if eq $source.Type "amo" -}}
+            <img src="images/projects/amo.png" alt="Get it on AMO">
+            {{- else if eq $source.Type "chromewebstore" -}}
+            <img src="images/projects/chromewebstore.png" alt="Get it on the Chrome Web Store">
+            {{- else if eq $source.Type "tryit" -}}
+            <img src="images/projects/tryit.png" alt="Try it in the browser">
+            {{- end -}}
+        </a>
+        {{- end -}}
+    </section>
+</article>

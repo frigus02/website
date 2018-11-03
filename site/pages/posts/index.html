@@ -1,0 +1,20 @@
+---
+title: "Posts"
+---
+
+<ul class="big-list">
+    {{- range _, $post := .Posts -}}
+    <li>
+        <a href="/posts/{{ $post.ID }}">
+            <h3>[[post.title]]</h3>
+            <span class="posts-datetime">{{ $post.Datetime }}</span>
+            <span class="posts-tags">
+                {{- range _, $tag := $post.Tags -}}
+                <span class="posts-tag">{{ $tag }}</span>
+                {{- end -}}
+            </span>
+            <p>{{ $post.Summary }}</p>
+        </a>
+    </li>
+    {{- end -}}
+</ul>

@@ -1,0 +1,18 @@
+---
+title: "{{ .Title }}"
+---
+
+<article>
+    <header>
+        <h3>{{ .Title }}</h3>
+        <span class="posts-details-datetime">{{ .Datetime }}</span>
+        <span class="posts-details-tags">
+            {{- range _, $tag := .Tags -}}
+            <span class="posts-details-tag">{{ $tag }}</span>
+            {{- end -}}
+        </span>
+    </header>
+    <section class="posts-details-content">
+        {{ .Content }}
+    </section>
+</article>
