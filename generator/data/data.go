@@ -2,15 +2,14 @@ package data
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
-	yaml "gopkg.in/yaml.v2"
+	"github.com/frigus02/website/generator/fs"
 )
 
-const dataDir = "../site/data"
+const dataDir = "data"
 const dataItemFile = "index.md"
 
 type baseItem interface {
@@ -18,7 +17,7 @@ type baseItem interface {
 	setContent(string)
 }
 
-func walkDataDir(itemDir string, walkFunc func(parentDir, itemDir string) error) error {
+func walkDataDir(itemDir string, walkFunc func(path, itemDir string) error) error {
 	dir := filepath.Join(dataDir, itemDir)
 	return filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -38,34 +37,43 @@ func walkDataDir(itemDir string, walkFunc func(parentDir, itemDir string) error)
 	})
 }
 
-func readDataItem(parentDir, itemDir string, item baseItem) error {
+func readDataItem(path, itemDir string, item baseItem) error {
 	// Data items can have a number at the start to enable ordering on the file
 	// system. The number is usually separated from the name with a dash.
 	item.setID(strings.TrimLeft(itemDir, "0123456789-"))
 
-	// Read file.
-	filename := filepath.Join(parentDir, itemDir, dataItemFile)
-	content, err := ioutil.ReadFile(filename)
+	filename := filepath.Join(path, itemDir, dataItemFile)
+	content, err := fs.ReadFileWithMetadata(filename, item)
 	if err != nil {
 		return err
 	}
 
-	data := string(content)
-
-	// Parse metadata.
-	metadataStart := strings.Index(data, "---")
-	metadataEnd := strings.LastIndex(data, "---")
-	if metadataStart == -1 || metadataStart == metadataEnd {
-		return fmt.Errorf("no metadata found (first and last index of --- were: %v, %v)", metadataStart, metadataEnd)
-	}
-
-	metadata := data[metadataStart+3 : metadataEnd]
-	err = yaml.Unmarshal([]byte(metadata), item)
-	if err != nil {
-		return err
-	}
-
-	// Use rest as content.
-	item.setContent(data[metadataEnd+3:])
+	item.setContent(content)
 	return nil
+}
+
+// GetItem reads a data item from the file system based on any file in the
+// items directory, deciding the item type from the folder name.
+func GetItem(file string) (interface{}, error) {
+	itemPath := filepath.Dir(file)
+	itemDir := filepath.Base(itemPath)
+	typePath := filepath.Dir(itemPath)
+	typeDir := filepath.Base(typePath)
+
+	var item baseItem
+	switch typeDir {
+	case postsDir:
+		item = &Post{}
+	case projectsDir:
+		item = &Project{}
+	default:
+		return nil, fmt.Errorf("unknown type: %s", typeDir)
+	}
+
+	err := readDataItem(typePath, itemDir, item)
+	if err != nil {
+		return nil, err
+	}
+
+	return item, nil
 }

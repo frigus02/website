@@ -45,12 +45,12 @@ const (
 	TryProjectSource            ProjectSourceType = "try"
 )
 
-// ReadProjects reads all projects from the data directory.
-func ReadProjects() (*[]Project, error) {
+// GetAllProjects reads all projects from the data directory.
+func GetAllProjects() (*[]Project, error) {
 	projects := []Project{}
-	err := walkDataDir(projectsDir, func(parentDir, itemDir string) error {
+	err := walkDataDir(projectsDir, func(path, itemDir string) error {
 		project := Project{}
-		err := readDataItem(parentDir, itemDir, &project)
+		err := readDataItem(path, itemDir, &project)
 		if err != nil {
 			return err
 		}

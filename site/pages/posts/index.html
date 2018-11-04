@@ -3,18 +3,18 @@ title: "Posts"
 ---
 
 <ul class="big-list">
-    {{- range _, $post := .Posts -}}
+    {{- range $index, $post := .Posts }}
     <li>
         <a href="/posts/{{ $post.ID }}">
-            <h3>[[post.title]]</h3>
+            <h3>{{ .Title }}</h3>
             <span class="posts-datetime">{{ $post.Datetime }}</span>
             <span class="posts-tags">
-                {{- range _, $tag := $post.Tags -}}
+                {{- range $index, $tag := $post.Tags }}
                 <span class="posts-tag">{{ $tag }}</span>
-                {{- end -}}
+                {{- end }}
             </span>
             <p>{{ $post.Summary }}</p>
         </a>
     </li>
-    {{- end -}}
+    {{- end }}
 </ul>

@@ -1,16 +1,25 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 
-	"github.com/frigus02/website/generator/data"
+	"github.com/frigus02/website/generator/build"
 )
 
 func main() {
-	posts, err := data.ReadProjects()
-	if err != nil {
-		panic(err)
+	var in string
+	var out string
+	var help bool
+	flag.StringVar(&in, "in", ".", "Path to the site folder")
+	flag.StringVar(&out, "out", "build", "Path to output folder")
+	flag.BoolVar(&help, "help", false, "Show help")
+	flag.Parse()
+
+	if help {
+		flag.Usage()
+		return
 	}
 
-	fmt.Printf("Posts: %v\n", posts)
+	w := build.Watch{In: in, Out: out}
+	w.Watch()
 }

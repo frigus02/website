@@ -22,12 +22,12 @@ func (p *Post) setContent(content string) {
 	p.Content = content
 }
 
-// ReadPosts reads all posts from the data directory.
-func ReadPosts() (*[]Post, error) {
+// GetAllPosts reads all posts from the data directory.
+func GetAllPosts() (*[]Post, error) {
 	posts := []Post{}
-	err := walkDataDir(postsDir, func(parentDir, itemDir string) error {
+	err := walkDataDir(postsDir, func(path, itemDir string) error {
 		post := Post{}
-		err := readDataItem(parentDir, itemDir, &post)
+		err := readDataItem(path, itemDir, &post)
 		if err != nil {
 			return err
 		}
