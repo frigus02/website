@@ -20,7 +20,7 @@ tags:
     - Java
 ---
 
-An Amdroid app which takes your car costs and presents them in
+An Android app which takes your car costs and presents them in
 reports with nice graphs. It does currently support reports for fuel
 consumption, fuel price, mileage and average car costs.
 

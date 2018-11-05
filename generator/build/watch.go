@@ -13,9 +13,11 @@ import (
 	"path/filepath"
 	"strings"
 	"syscall"
+	txtTemplate "text/template"
 
 	"github.com/frigus02/website/generator/data"
 	"github.com/frigus02/website/generator/fs"
+	yaml "gopkg.in/yaml.v2"
 )
 
 type pageMetadata struct {
@@ -152,7 +154,13 @@ func (w *Watch) updatePageFile(file string) {
 			for _, post := range w.pageContext.Posts {
 				id := dataType + "/" + post.ID
 
-				err = w.renderPageToFile(id, metadata, tmpl, post)
+				renderedMetadata, err := renderPageMetadata(metadata, post)
+				if err != nil {
+					log.Printf("Error rendering data page %s metadata: %v\n", id, err)
+					return
+				}
+
+				err = w.renderPageToFile(id, renderedMetadata, tmpl, post)
 				if err != nil {
 					log.Printf("Error rendering data page %s: %v\n", id, err)
 					return
@@ -162,7 +170,13 @@ func (w *Watch) updatePageFile(file string) {
 			for _, project := range w.pageContext.Projects {
 				id := dataType + "/" + project.ID
 
-				err = w.renderPageToFile(id, metadata, tmpl, project)
+				renderedMetadata, err := renderPageMetadata(metadata, project)
+				if err != nil {
+					log.Printf("Error rendering data page %s metadata: %v\n", id, err)
+					return
+				}
+
+				err = w.renderPageToFile(id, renderedMetadata, tmpl, project)
 				if err != nil {
 					log.Printf("Error rendering data page %s: %v\n", id, err)
 					return
@@ -349,4 +363,30 @@ func (w *Watch) renderPageToFile(
 	}
 
 	return nil
+}
+
+func renderPageMetadata(metadata *pageMetadata, context interface{}) (*pageMetadata, error) {
+	tmplBytes, err := yaml.Marshal(metadata)
+	if err != nil {
+		return nil, err
+	}
+
+	tmpl, err := txtTemplate.New("").Parse(string(tmplBytes))
+	if err != nil {
+		return nil, err
+	}
+
+	var renderedBytes bytes.Buffer
+	err = tmpl.Execute(&renderedBytes, context)
+	if err != nil {
+		return nil, err
+	}
+
+	outMetadata := pageMetadata{}
+	err = yaml.Unmarshal(renderedBytes.Bytes(), &outMetadata)
+	if err != nil {
+		return nil, err
+	}
+
+	return &outMetadata, nil
 }
