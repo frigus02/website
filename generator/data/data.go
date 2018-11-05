@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/frigus02/website/generator/fs"
+	"github.com/russross/blackfriday"
 )
 
 const dataDir = "data"
@@ -49,7 +50,9 @@ func readDataItem(path, itemDir string, item baseItem) error {
 		return err
 	}
 
-	item.setContent(template.HTML(content))
+	htmlContent := blackfriday.Run([]byte(content))
+
+	item.setContent(template.HTML(htmlContent))
 	return nil
 }
 
