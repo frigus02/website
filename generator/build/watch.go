@@ -17,6 +17,8 @@ func (b *Build) Watch() {
 		log.Fatal(err)
 	}
 
+	b.initMinifier()
+
 	for _, file := range files {
 		b.handleFile(file)
 	}

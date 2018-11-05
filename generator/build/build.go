@@ -13,9 +13,13 @@ import (
 	"strings"
 	txtTemplate "text/template"
 
+	"github.com/tdewolff/minify"
+	"github.com/tdewolff/minify/css"
+	"github.com/tdewolff/minify/html"
+	yaml "gopkg.in/yaml.v2"
+
 	"github.com/frigus02/website/generator/data"
 	"github.com/frigus02/website/generator/fs"
-	yaml "gopkg.in/yaml.v2"
 )
 
 type pageMetadata struct {
@@ -26,6 +30,8 @@ type pageMetadata struct {
 type Build struct {
 	In             string
 	Out            string
+	Minify         bool
+	minifier       *minify.M
 	stylesheets    []string
 	stylesheetName string
 	layoutTemplate *template.Template
@@ -40,8 +46,18 @@ func (b *Build) Build() {
 		log.Fatal(err)
 	}
 
+	b.initMinifier()
+
 	for _, file := range files {
 		b.handleFile(file)
+	}
+}
+
+func (b *Build) initMinifier() {
+	if b.Minify {
+		b.minifier = minify.New()
+		b.minifier.AddFunc("text/css", css.Minify)
+		b.minifier.AddFunc("text/html", html.Minify)
 	}
 }
 
@@ -58,12 +74,6 @@ func (b *Build) handleFile(file string) {
 	}
 }
 
-func (b *Build) invalidateSeenPageFiles() {
-	for _, file := range b.seenPageFiles {
-		b.handleFile(file)
-	}
-}
-
 func (b *Build) trackSeenPageFiles(file string) {
 	found := false
 	for _, seenPageFile := range b.seenPageFiles {
@@ -74,6 +84,12 @@ func (b *Build) trackSeenPageFiles(file string) {
 
 	if !found {
 		b.seenPageFiles = append(b.seenPageFiles, file)
+	}
+}
+
+func (b *Build) invalidateSeenPageFiles() {
+	for _, file := range b.seenPageFiles {
+		b.handleFile(file)
 	}
 }
 
@@ -238,7 +254,11 @@ func (b *Build) updateStylesheet(file string) {
 
 	var content bytes.Buffer
 	hash := md5.New()
-	hashAndFile := io.MultiWriter(hash, &content)
+	writer := newNopWriteCloser(io.MultiWriter(hash, &content))
+
+	if b.Minify {
+		writer = b.minifier.Writer("text/css", writer)
+	}
 
 	for _, stylesheet := range b.stylesheets {
 		source, err := os.Open(filepath.Join(b.In, stylesheet))
@@ -249,11 +269,17 @@ func (b *Build) updateStylesheet(file string) {
 
 		defer source.Close()
 
-		_, err = io.Copy(hashAndFile, source)
+		_, err = io.Copy(writer, source)
 		if err != nil {
 			log.Printf("Error copying stylesheet %s: %v\n", stylesheet, err)
 			continue
 		}
+	}
+
+	err = writer.Close()
+	if err != nil {
+		log.Printf("Error closing (minify) writer for stylesheets: %v\n", err)
+		return
 	}
 
 	filenameWithHash := fmt.Sprintf("styles-%x.css", hash.Sum(nil)[:8])
@@ -320,16 +346,25 @@ func (b *Build) renderPageToFile(
 			return fmt.Errorf("error creating destination folder %s for page %s: %v", destinationFileName, id, err)
 		}
 
-		destination, err := os.Create(destinationFileName)
+		var destination io.WriteCloser
+		destination, err = os.Create(destinationFileName)
 		if err != nil {
 			return fmt.Errorf("error creating destination %s for page %s: %v", destinationFileName, id, err)
 		}
 
-		defer destination.Close()
+		if b.Minify {
+			destination = b.minifier.Writer("text/html", destination)
+		}
 
 		err = b.layoutTemplate.Execute(destination, &layoutContext)
 		if err != nil {
+			destination.Close()
 			return fmt.Errorf("error executing layout template for %s: %v", id, err)
+		}
+
+		err = destination.Close()
+		if err != nil {
+			return fmt.Errorf("error closing (minify) writer for %s: %v", id, err)
 		}
 	}
 
