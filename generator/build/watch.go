@@ -99,36 +99,49 @@ func (w *Watch) trackSeenPageFiles(file string) {
 }
 
 func (w *Watch) updateDataItem(file string) {
-	item, err := data.GetItem(filepath.Join(w.In, file))
-	if err != nil {
-		log.Printf("Error getting data item for file %s: %v\n", file, err)
-		return
-	}
+	if filepath.Ext(file) == ".png" {
+		_, typeDir, _, fileName, id := data.ExtractMetadataFromFilePath(file)
 
-	switch item := item.(type) {
-	case *data.Post:
-		for i, post := range w.pageContext.Posts {
-			if post.ID == item.ID {
-				w.pageContext.Posts[i] = item
-				return
-			}
+		src := filepath.Join(w.In, file)
+		dst := filepath.Join(w.Out, "images", typeDir, id, fileName)
+
+		err := fs.CopyFile(src, dst)
+		if err != nil {
+			log.Printf("Error copying static data file %s: %v\n", file, err)
+			return
+		}
+	} else {
+		item, err := data.GetItem(filepath.Join(w.In, file))
+		if err != nil {
+			log.Printf("Error getting data item for file %s: %v\n", file, err)
+			return
 		}
 
-		w.pageContext.Posts = append(w.pageContext.Posts, item)
-	case *data.Project:
-		for i, project := range w.pageContext.Projects {
-			if project.ID == item.ID {
-				w.pageContext.Projects[i] = item
-				return
+		switch item := item.(type) {
+		case *data.Post:
+			for i, post := range w.pageContext.Posts {
+				if post.ID == item.ID {
+					w.pageContext.Posts[i] = item
+					return
+				}
 			}
+
+			w.pageContext.Posts = append(w.pageContext.Posts, item)
+		case *data.Project:
+			for i, project := range w.pageContext.Projects {
+				if project.ID == item.ID {
+					w.pageContext.Projects[i] = item
+					return
+				}
+			}
+
+			w.pageContext.Projects = append(w.pageContext.Projects, item)
+		default:
+			log.Fatal("Unexpected data item type")
 		}
 
-		w.pageContext.Projects = append(w.pageContext.Projects, item)
-	default:
-		log.Fatal("Unexpected data item type")
+		w.invalidateSeenPageFiles()
 	}
-
-	w.invalidateSeenPageFiles()
 }
 
 func (w *Watch) updatePageFile(file string) {
@@ -214,31 +227,10 @@ func (w *Watch) updateStaticFile(file string) {
 		return
 	}
 
-	dest := filepath.Join(w.Out, file[7:])
+	src := filepath.Join(w.In, file)
+	dst := filepath.Join(w.Out, file[7:])
 
-	source, err := os.Open(filepath.Join(w.In, file))
-	if err != nil {
-		log.Printf("Error reading static file %s: %v\n", file, err)
-		return
-	}
-
-	defer source.Close()
-
-	err = os.MkdirAll(filepath.Dir(dest), 0644)
-	if err != nil {
-		log.Printf("Error creating destination folder %s for static file %s: %v\n", dest, file, err)
-		return
-	}
-
-	destination, err := os.Create(dest)
-	if err != nil {
-		log.Printf("Error creating destination %s for static file %s: %v\n", dest, file, err)
-		return
-	}
-
-	defer destination.Close()
-
-	_, err = io.Copy(destination, source)
+	err := fs.CopyFile(src, dst)
 	if err != nil {
 		log.Printf("Error copying static file %s: %v\n", file, err)
 		return
