@@ -25,7 +25,9 @@ func NewRecursiveWatcher(path string) (rw *RecursiveWatcher, files []string, err
 		return nil, nil, err
 	}
 
-	files, folders, err := getFilesRecursive(path)
+	path = path + string(filepath.Separator)
+
+	files, folders, err := ListRecursive(path)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -44,14 +46,10 @@ func NewRecursiveWatcher(path string) (rw *RecursiveWatcher, files []string, err
 	}
 
 	for _, folder := range folders {
-		if err = rw.Add(folder); err != nil {
+		if err = rw.Add(filepath.Join(path, folder)); err != nil {
 			rw.Close()
 			return nil, nil, err
 		}
-	}
-
-	for i, file := range files {
-		files[i] = strings.TrimPrefix(file, path)[1:]
 	}
 
 	return rw, files, nil
@@ -69,7 +67,7 @@ func (watcher *RecursiveWatcher) Run() {
 					break
 				}
 
-				strippedPath := strings.TrimPrefix(event.Name, watcher.basepath)[1:]
+				strippedPath := strings.TrimPrefix(event.Name, watcher.basepath)
 
 				// File or directory was created
 				if event.Op&fsnotify.Create == fsnotify.Create {
@@ -95,26 +93,4 @@ func (watcher *RecursiveWatcher) Run() {
 			}
 		}
 	}()
-}
-
-func getFilesRecursive(path string) (files, folders []string, err error) {
-	err = filepath.Walk(path, func(newPath string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if info.IsDir() {
-			folders = append(folders, newPath)
-		} else {
-			files = append(files, newPath)
-		}
-
-		return nil
-	})
-
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return
 }

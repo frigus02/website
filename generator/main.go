@@ -2,14 +2,17 @@ package main
 
 import (
 	"flag"
+	"log"
 
 	"github.com/frigus02/website/generator/build"
 )
 
 func main() {
+	var mode string
 	var in string
 	var out string
 	var help bool
+	flag.StringVar(&mode, "mode", "build", "Mode: build or watch")
 	flag.StringVar(&in, "in", ".", "Path to the site folder")
 	flag.StringVar(&out, "out", "build", "Path to output folder")
 	flag.BoolVar(&help, "help", false, "Show help")
@@ -20,6 +23,13 @@ func main() {
 		return
 	}
 
-	w := build.Watch{In: in, Out: out}
-	w.Watch()
+	b := build.Build{In: in, Out: out}
+	switch mode {
+	case "build":
+		b.Build()
+	case "watch":
+		b.Watch()
+	default:
+		log.Fatal("Unknown mode")
+	}
 }
