@@ -3,14 +3,14 @@ title: "Projects"
 ---
 
 <ul class="big-list">
-    {{- range $index, $project := .Projects }}
+    {{- range $project := .Projects }}
     <li>
         <a href="/projects/{{ $project.ID }}">
             <h3>{{ $project.Title }}</h3>
             <img class="projects-icon" src="images/projects/{{ $project.ID }}/icon_large.png" alt="">
             <div class="projects-description">{{ $project.ShortDescription }}</div>
             <div class="projects-tags">
-                {{- range $index, $tag := $project.Tags }}
+                {{- range $tag := $project.Tags }}
                 <span class="projects-tag">{{ $tag }}</span>
                 {{- end }}
             </div>

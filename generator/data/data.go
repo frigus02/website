@@ -2,6 +2,7 @@ package data
 
 import (
 	"fmt"
+	"html/template"
 	"os"
 	"path/filepath"
 	"strings"
@@ -14,7 +15,7 @@ const dataItemFile = "index.md"
 
 type baseItem interface {
 	setID(string)
-	setContent(string)
+	setContent(template.HTML)
 }
 
 func walkDataDir(itemDir string, walkFunc func(path, itemDir string) error) error {
@@ -48,7 +49,7 @@ func readDataItem(path, itemDir string, item baseItem) error {
 		return err
 	}
 
-	item.setContent(content)
+	item.setContent(template.HTML(content))
 	return nil
 }
 

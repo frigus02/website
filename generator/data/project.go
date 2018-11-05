@@ -1,5 +1,7 @@
 package data
 
+import "html/template"
+
 const projectsDir = "projects"
 
 // Project is the data model for one project.
@@ -10,14 +12,14 @@ type Project struct {
 	Images           []ProjectImage  `yaml:"images"`
 	Sources          []ProjectSource `yaml:"sources"`
 	Tags             []string        `yaml:"tags"`
-	Content          string
+	Content          template.HTML
 }
 
 func (p *Project) setID(id string) {
 	p.ID = id
 }
 
-func (p *Project) setContent(content string) {
+func (p *Project) setContent(content template.HTML) {
 	p.Content = content
 }
 

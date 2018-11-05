@@ -3,13 +3,13 @@ title: "Posts"
 ---
 
 <ul class="big-list">
-    {{- range $index, $post := .Posts }}
+    {{- range $post := .Posts }}
     <li>
         <a href="/posts/{{ $post.ID }}">
             <h3>{{ .Title }}</h3>
             <span class="posts-datetime">{{ $post.Datetime }}</span>
             <span class="posts-tags">
-                {{- range $index, $tag := $post.Tags }}
+                {{- range $tag := $post.Tags }}
                 <span class="posts-tag">{{ $tag }}</span>
                 {{- end }}
             </span>

@@ -11,19 +11,19 @@ title: "{{ .Title }}"
         {{ .Content }}
     </section>
     <section class="projects-details-tags">
-        {{- range $index, $tag := .Tags }}
+        {{- range $tag := .Tags }}
         <span class="projects-details-tag">{{ $tag }}</span>
         {{- end }}
     </section>
     <section class="projects-details-images">
-        {{- range $index, $image := .Images }}
-        <a href="{{ $image.Url }}" target="_blank">
-            <img src="{{ $image.ThumbUrl }}" alt="{{ $image.Alt }}">
+        {{- range $image := .Images }}
+        <a href="images/projects/{{ $.ID }}/{{ $image.Name }}.png" target="_blank">
+            <img src="images/projects/{{ $.ID }}/{{ $image.Name }}_thumb.png" alt="{{ $image.Alt }}">
         </a>
         {{- end }}
     </section>
     <section class="projects-details-getit">
-        {{- range $index, $source := .Sources }}
+        {{- range $source := .Sources }}
         <a href="{{ $source.URL }}" target="_blank">
             {{- if eq $source.Type "googleplay" -}}
             <img src="images/projects/google-play.png" alt="Get it on Google Play">

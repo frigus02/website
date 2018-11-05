@@ -140,63 +140,54 @@ func (w *Watch) updatePageFile(file string) {
 		w.layoutTemplate = tmpl
 		w.invalidateSeenPageFiles()
 	} else if filepath.Base(file) == "_details.html" {
-		log.Printf("Details template %s\n", file)
+		metadata, tmpl, err := w.loadPageFile(file)
+		if err != nil {
+			log.Printf("Error loading page file %s: %v\n", file, err)
+			return
+		}
+
+		dataType := filepath.Base(filepath.Dir(file))
+		switch dataType {
+		case "posts":
+			for _, post := range w.pageContext.Posts {
+				id := dataType + "/" + post.ID
+
+				err = w.renderPageToFile(id, metadata, tmpl, post)
+				if err != nil {
+					log.Printf("Error rendering data page %s: %v\n", id, err)
+					return
+				}
+			}
+		case "projects":
+			for _, project := range w.pageContext.Projects {
+				id := dataType + "/" + project.ID
+
+				err = w.renderPageToFile(id, metadata, tmpl, project)
+				if err != nil {
+					log.Printf("Error rendering data page %s: %v\n", id, err)
+					return
+				}
+			}
+		default:
+			log.Printf("Unknown data type %s for file %s\n", dataType, file)
+			return
+		}
+
+		w.trackSeenPageFiles(file)
 	} else {
-		metadata := pageMetadata{}
-		content, err := fs.ReadFileWithMetadata(filepath.Join(w.In, file), &metadata)
+		metadata, tmpl, err := w.loadPageFile(file)
 		if err != nil {
-			log.Printf("Error reading file with metadata %s: %v\n", file, err)
+			log.Printf("Error loading page file %s: %v\n", file, err)
 			return
 		}
 
-		tmpl, err := template.New("").Parse(content)
+		id := strings.TrimSuffix(file[6:], filepath.Ext(file))
+		id = strings.TrimSuffix(id, string(filepath.Separator)+"index")
+
+		err = w.renderPageToFile(id, metadata, tmpl, &w.pageContext)
 		if err != nil {
-			log.Printf("Error parsing page template %s: %v\n", file, err)
+			log.Printf("Error rendering page %s: %v\n", file, err)
 			return
-		}
-
-		var buf bytes.Buffer
-		err = tmpl.Execute(&buf, w.pageContext)
-		if err != nil {
-			log.Printf("Error executing template %s: %v\n", file, err)
-			return
-		}
-
-		if w.layoutTemplate != nil {
-			// TODO: fill ParentID and ParentTitle
-
-			id := strings.TrimSuffix(file[6:], filepath.Ext(file))
-			id = strings.TrimSuffix(id, string(filepath.Separator)+"index")
-
-			layoutContext := layoutContext{
-				ID:          id,
-				Title:       metadata.Title,
-				Content:     template.HTML(buf.String()),
-				ParentID:    "index",
-				ParentTitle: "",
-				Stylesheet:  w.stylesheetName,
-			}
-
-			destinationFileName := filepath.Join(w.Out, file[6:])
-			err = os.MkdirAll(filepath.Dir(destinationFileName), 0644)
-			if err != nil {
-				log.Printf("Error creating destination folder %s for page %s: %v\n", destinationFileName, file, err)
-				return
-			}
-
-			destination, err := os.Create(destinationFileName)
-			if err != nil {
-				log.Printf("Error creating destination %s for page %s: %v\n", destinationFileName, file, err)
-				return
-			}
-
-			defer destination.Close()
-
-			err = w.layoutTemplate.Execute(destination, &layoutContext)
-			if err != nil {
-				log.Printf("Error executing layout template for %s: %v\n", file, err)
-				return
-			}
 		}
 
 		w.trackSeenPageFiles(file)
@@ -297,4 +288,65 @@ func (w *Watch) updateStylesheet(file string) {
 
 	w.stylesheetName = filenameWithHash
 	w.invalidateSeenPageFiles()
+}
+
+func (w *Watch) loadPageFile(file string) (*pageMetadata, *template.Template, error) {
+	metadata := pageMetadata{}
+	content, err := fs.ReadFileWithMetadata(filepath.Join(w.In, file), &metadata)
+	if err != nil {
+		return nil, nil, fmt.Errorf("error reading file with metadata %s: %v", file, err)
+	}
+
+	tmpl, err := template.New("").Parse(content)
+	if err != nil {
+		return nil, nil, fmt.Errorf("error parsing page template %s: %v", file, err)
+	}
+
+	return &metadata, tmpl, nil
+}
+
+func (w *Watch) renderPageToFile(
+	id string,
+	metadata *pageMetadata,
+	tmpl *template.Template,
+	pageContext interface{},
+) error {
+	var buf bytes.Buffer
+	err := tmpl.Execute(&buf, pageContext)
+	if err != nil {
+		return fmt.Errorf("error executing template %s: %v", id, err)
+	}
+
+	if w.layoutTemplate != nil {
+		// TODO: fill ParentID and ParentTitle
+
+		layoutContext := layoutContext{
+			ID:          id,
+			Title:       metadata.Title,
+			Content:     template.HTML(buf.String()),
+			ParentID:    "index",
+			ParentTitle: "",
+			Stylesheet:  w.stylesheetName,
+		}
+
+		destinationFileName := filepath.Join(w.Out, id+".html")
+		err = os.MkdirAll(filepath.Dir(destinationFileName), 0644)
+		if err != nil {
+			return fmt.Errorf("error creating destination folder %s for page %s: %v", destinationFileName, id, err)
+		}
+
+		destination, err := os.Create(destinationFileName)
+		if err != nil {
+			return fmt.Errorf("error creating destination %s for page %s: %v", destinationFileName, id, err)
+		}
+
+		defer destination.Close()
+
+		err = w.layoutTemplate.Execute(destination, &layoutContext)
+		if err != nil {
+			return fmt.Errorf("error executing layout template for %s: %v", id, err)
+		}
+	}
+
+	return nil
 }

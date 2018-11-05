@@ -1,6 +1,9 @@
 package data
 
-import "time"
+import (
+	"html/template"
+	"time"
+)
 
 const postsDir = "posts"
 
@@ -11,14 +14,14 @@ type Post struct {
 	Summary  string    `yaml:"summary"`
 	Datetime time.Time `yaml:"datetime"`
 	Tags     []string  `yaml:"tags"`
-	Content  string
+	Content  template.HTML
 }
 
 func (p *Post) setID(id string) {
 	p.ID = id
 }
 
-func (p *Post) setContent(content string) {
+func (p *Post) setContent(content template.HTML) {
 	p.Content = content
 }
 
