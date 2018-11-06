@@ -13,9 +13,9 @@ import (
 	"strings"
 	txtTemplate "text/template"
 
-	"github.com/tdewolff/minify"
-	"github.com/tdewolff/minify/css"
-	"github.com/tdewolff/minify/html"
+	"github.com/tdewolff/minify/v2"
+	"github.com/tdewolff/minify/v2/css"
+	"github.com/tdewolff/minify/v2/html"
 	yaml "gopkg.in/yaml.v2"
 
 	"github.com/frigus02/website/generator/data"
