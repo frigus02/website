@@ -161,14 +161,14 @@ func (b *Build) updatePageFile(file string) {
 		case "posts":
 			for _, post := range b.pageContext.Posts {
 				id := dataType + "/" + post.ID
-
+				outfile := filepath.Join(b.Out, id+".html")
 				renderedMetadata, err := renderPageMetadata(metadata, post)
 				if err != nil {
 					log.Printf("Error rendering data page %s metadata: %v\n", id, err)
 					return
 				}
 
-				err = b.renderPageToFile(id, renderedMetadata, tmpl, post)
+				err = b.renderPageToFile(id, outfile, renderedMetadata, tmpl, post)
 				if err != nil {
 					log.Printf("Error rendering data page %s: %v\n", id, err)
 					return
@@ -177,14 +177,14 @@ func (b *Build) updatePageFile(file string) {
 		case "projects":
 			for _, project := range b.pageContext.Projects {
 				id := dataType + "/" + project.ID
-
+				outfile := filepath.Join(b.Out, id+".html")
 				renderedMetadata, err := renderPageMetadata(metadata, project)
 				if err != nil {
 					log.Printf("Error rendering data page %s metadata: %v\n", id, err)
 					return
 				}
 
-				err = b.renderPageToFile(id, renderedMetadata, tmpl, project)
+				err = b.renderPageToFile(id, outfile, renderedMetadata, tmpl, project)
 				if err != nil {
 					log.Printf("Error rendering data page %s: %v\n", id, err)
 					return
@@ -204,9 +204,16 @@ func (b *Build) updatePageFile(file string) {
 		}
 
 		id := strings.TrimSuffix(file[6:], filepath.Ext(file))
-		id = strings.TrimSuffix(id, string(filepath.Separator)+"index")
+		id = strings.Replace(id, string(filepath.Separator), "/", -1)
+		if id == "index" {
+			id = ""
+		} else {
+			id = strings.TrimSuffix(id, "/index")
+		}
 
-		err = b.renderPageToFile(id, metadata, tmpl, &b.pageContext)
+		outfile := filepath.Join(b.Out, file[6:])
+
+		err = b.renderPageToFile(id, outfile, metadata, tmpl, &b.pageContext)
 		if err != nil {
 			log.Printf("Error rendering page %s: %v\n", file, err)
 			return
@@ -318,6 +325,7 @@ func (b *Build) loadPageFile(file string) (*pageMetadata, *template.Template, er
 
 func (b *Build) renderPageToFile(
 	id string,
+	outfile string,
 	metadata *pageMetadata,
 	tmpl *template.Template,
 	pageContext interface{},
@@ -335,21 +343,20 @@ func (b *Build) renderPageToFile(
 			ID:          id,
 			Title:       metadata.Title,
 			Content:     template.HTML(buf.String()),
-			ParentID:    "index",
+			ParentID:    "",
 			ParentTitle: "",
 			Stylesheet:  b.stylesheetName,
 		}
 
-		destinationFileName := filepath.Join(b.Out, id+".html")
-		err = os.MkdirAll(filepath.Dir(destinationFileName), 0644)
+		err = os.MkdirAll(filepath.Dir(outfile), 0644)
 		if err != nil {
-			return fmt.Errorf("error creating destination folder %s for page %s: %v", destinationFileName, id, err)
+			return fmt.Errorf("error creating destination folder %s for page %s: %v", outfile, id, err)
 		}
 
 		var destination io.WriteCloser
-		destination, err = os.Create(destinationFileName)
+		destination, err = os.Create(outfile)
 		if err != nil {
-			return fmt.Errorf("error creating destination %s for page %s: %v", destinationFileName, id, err)
+			return fmt.Errorf("error creating destination %s for page %s: %v", outfile, id, err)
 		}
 
 		if b.Minify {

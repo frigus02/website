@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/frigus02/website/generator/build"
+	"github.com/frigus02/website/generator/serve"
 )
 
 func main() {
@@ -30,6 +31,7 @@ func main() {
 	case "build":
 		b.Build()
 	case "watch":
+		go serve.Serve(out)
 		b.Watch()
 	default:
 		log.Fatal("Unknown mode")
