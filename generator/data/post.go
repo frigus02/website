@@ -24,20 +24,3 @@ func (p *Post) setID(id string) {
 func (p *Post) setContent(content template.HTML) {
 	p.Content = content
 }
-
-// GetAllPosts reads all posts from the data directory.
-func GetAllPosts() (*[]Post, error) {
-	posts := []Post{}
-	err := walkDataDir(postsDir, func(path, itemDir string) error {
-		post := Post{}
-		err := readDataItem(path, itemDir, &post)
-		if err != nil {
-			return err
-		}
-
-		posts = append(posts, post)
-		return nil
-	})
-
-	return &posts, err
-}

@@ -46,20 +46,3 @@ const (
 	ChromeWebStoreProjectSource ProjectSourceType = "chromewebstore"
 	TryProjectSource            ProjectSourceType = "try"
 )
-
-// GetAllProjects reads all projects from the data directory.
-func GetAllProjects() (*[]Project, error) {
-	projects := []Project{}
-	err := walkDataDir(projectsDir, func(path, itemDir string) error {
-		project := Project{}
-		err := readDataItem(path, itemDir, &project)
-		if err != nil {
-			return err
-		}
-
-		projects = append(projects, project)
-		return nil
-	})
-
-	return &projects, err
-}

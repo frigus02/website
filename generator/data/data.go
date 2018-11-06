@@ -3,7 +3,6 @@ package data
 import (
 	"fmt"
 	"html/template"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -17,26 +16,6 @@ const dataItemFile = "index.md"
 type baseItem interface {
 	setID(string)
 	setContent(template.HTML)
-}
-
-func walkDataDir(itemDir string, walkFunc func(path, itemDir string) error) error {
-	dir := filepath.Join(dataDir, itemDir)
-	return filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return fmt.Errorf("error walking dir on %s: %v", path, err)
-		}
-
-		if dir == path || !info.IsDir() {
-			return nil
-		}
-
-		err = walkFunc(dir, info.Name())
-		if err != nil {
-			return fmt.Errorf("error reading data item %s: %v", path, err)
-		}
-
-		return nil
-	})
 }
 
 func getIDFromItemDir(itemDir string) string {
