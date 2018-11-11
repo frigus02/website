@@ -67,15 +67,20 @@ func (b *Build) handleFile(name string) error {
 			return fmt.Errorf("error handling update to file %s: %v", file.Name, err)
 		}
 	} else {
-		topDir := file.Name[0:strings.Index(file.Name, "/")]
-		if topDir == "data" {
-			item, err = b.createDataItem(file)
-		} else if topDir == "pages" {
-			item, err = b.createPageItem(file)
-		} else if topDir == "static" {
+		firstSlash := strings.Index(file.Name, "/")
+		if firstSlash == -1 {
 			item, err = b.createStaticFileItem(file)
 		} else {
-			err = fmt.Errorf("unknown file")
+			topDir := file.Name[0:firstSlash]
+			if topDir == "data" {
+				item, err = b.createDataItem(file)
+			} else if topDir == "pages" {
+				item, err = b.createPageItem(file)
+			} else if topDir == "static" {
+				item, err = b.createStaticFileItem(file)
+			} else {
+				err = fmt.Errorf("unknown file")
+			}
 		}
 
 		if err != nil {
