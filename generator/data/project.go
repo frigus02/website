@@ -7,6 +7,7 @@ const projectsDir = "projects"
 // Project is the data model for one project.
 type Project struct {
 	ID               string
+	Order            int
 	Title            string          `yaml:"title"`
 	ShortDescription string          `yaml:"short_description"`
 	Images           []ProjectImage  `yaml:"images"`
@@ -17,6 +18,10 @@ type Project struct {
 
 func (p *Project) setID(id string) {
 	p.ID = id
+}
+
+func (p *Project) setOrder(order int) {
+	p.Order = order
 }
 
 func (p *Project) setContent(content template.HTML) {

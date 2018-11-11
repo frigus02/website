@@ -101,7 +101,11 @@ func (b *Build) handleFile(name string) error {
 
 func (b *Build) createDataItem(file *fs.File) (item, error) {
 	if filepath.Ext(file.Name) == ".png" {
-		typeDir, fileName, id := data.ExtractMetadataFromFilePath(file.Name)
+		typeDir, fileName, id, _, err := data.ExtractMetadataFromFilePath(file.Name)
+		if err != nil {
+			return nil, err
+		}
+
 		newName := fmt.Sprintf("static/images/%s/%s/%s", typeDir, id, fileName)
 
 		return b.createStaticFileItem(&fs.File{

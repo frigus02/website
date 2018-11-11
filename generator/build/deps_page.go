@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/frigus02/website/generator/data"
@@ -102,6 +103,13 @@ func (i *pageItem) render(ctx *renderContext) error {
 	} else {
 		outfile = filepath.Join(ctx.out, i.id+".html")
 	}
+
+	sort.Slice(posts, func(i, j int) bool {
+		return posts[i].Order > posts[j].Order
+	})
+	sort.Slice(projects, func(i, j int) bool {
+		return projects[i].Order < projects[j].Order
+	})
 
 	staticFileNames := getStaticFileMap(staticFiles)
 	pageCtx := &pageContext{

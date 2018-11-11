@@ -5,7 +5,7 @@ title: "{{ .Item.Title }}"
 <article>
     <header>
         <h3>{{ .Item.Title }}</h3>
-        <span class="posts-details-datetime">{{ .Item.Datetime }}</span>
+        <span class="posts-details-datetime">{{ formatDate .Item.Datetime }}</span>
         <span class="posts-details-tags">
             {{- range $tag := .Item.Tags }}
             <span class="posts-details-tag">{{ $tag }}</span>

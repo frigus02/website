@@ -7,7 +7,7 @@ title: "Posts"
     <li>
         <a href="/posts/{{ $post.ID }}">
             <h3>{{ .Title }}</h3>
-            <span class="posts-datetime">{{ $post.Datetime }}</span>
+            <span class="posts-datetime">{{ formatDate $post.Datetime }}</span>
             <span class="posts-tags">
                 {{- range $tag := $post.Tags }}
                 <span class="posts-tag">{{ $tag }}</span>

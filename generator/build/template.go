@@ -3,6 +3,7 @@ package build
 import (
 	"html/template"
 	"strings"
+	"time"
 
 	"github.com/frigus02/website/generator/data"
 )
@@ -30,6 +31,9 @@ type dataPageContext struct {
 func parseTemplate(content string) (tmpl *template.Template, err error) {
 	funcMap := template.FuncMap{
 		"hasSuffix": strings.HasSuffix,
+		"formatDate": func(t time.Time) string {
+			return t.Format("2006-01-02 15:04")
+		},
 	}
 
 	tmpl, err = template.New("").Funcs(funcMap).Parse(content)

@@ -7,7 +7,7 @@ title: "Projects"
     <li>
         <a href="/projects/{{ $project.ID }}">
             <h3>{{ $project.Title }}</h3>
-            <img class="projects-icon" src="images/projects/{{ $project.ID }}/icon_large.png" alt="">
+            <img class="projects-icon" src='{{ index $.StaticFiles (printf "images/projects/%s/icon_large.png" $project.ID) }}' alt="">
             <div class="projects-description">{{ $project.ShortDescription }}</div>
             <div class="projects-tags">
                 {{- range $tag := $project.Tags }}
