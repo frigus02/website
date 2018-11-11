@@ -18,7 +18,7 @@ func CopyFile(src, dst string) error {
 	defer source.Close()
 
 	dstDir := filepath.Dir(dst)
-	err = os.MkdirAll(dstDir, 0644)
+	err = os.MkdirAll(dstDir, 0755)
 	if err != nil {
 		return fmt.Errorf("error creating destination folder %s: %v", dstDir, err)
 	}

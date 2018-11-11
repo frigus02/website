@@ -175,7 +175,7 @@ func renderPageToFile(
 		return fmt.Errorf("error executing template %s: %v", id, err)
 	}
 
-	err = os.MkdirAll(filepath.Dir(outfile), 0644)
+	err = os.MkdirAll(filepath.Dir(outfile), 0755)
 	if err != nil {
 		return fmt.Errorf("error creating destination folder %s for page %s: %v", outfile, id, err)
 	}

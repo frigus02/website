@@ -77,7 +77,7 @@ func (i *staticFileItem) render(ctx *renderContext) error {
 	filename := filepath.Join(ctx.out, i.name)
 	dir := filepath.Dir(filename)
 
-	err := os.MkdirAll(dir, 0644)
+	err := os.MkdirAll(dir, 0755)
 	if err != nil {
 		return fmt.Errorf("error creating destination folder %s for stylesheet: %v", dir, err)
 	}

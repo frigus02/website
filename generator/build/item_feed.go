@@ -108,7 +108,7 @@ func (i *feedItem) render(ctx *renderContext) error {
 	filename := filepath.Join(ctx.out, "feeds/posts")
 	dir := filepath.Dir(filename)
 
-	err = os.MkdirAll(dir, 0644)
+	err = os.MkdirAll(dir, 0755)
 	if err != nil {
 		return fmt.Errorf("error creating destination folder %s for feeds: %v", dir, err)
 	}
