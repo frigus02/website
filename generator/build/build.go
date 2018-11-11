@@ -1,42 +1,28 @@
 package build
 
 import (
-	"bytes"
-	"crypto/md5"
 	"fmt"
-	"html/template"
-	"io"
-	"io/ioutil"
 	"log"
-	"os"
 	"path/filepath"
 	"strings"
-	txtTemplate "text/template"
 
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/html"
-	yaml "gopkg.in/yaml.v2"
 
 	"github.com/frigus02/website/generator/data"
 	"github.com/frigus02/website/generator/fs"
 )
 
-type pageMetadata struct {
-	Title string `yaml:"title"`
-}
-
 // Build builds the website and is able to continuously update the output.
 type Build struct {
-	In             string
-	Out            string
-	Minify         bool
-	minifier       *minify.M
-	stylesheets    []string
-	stylesheetName string
-	layoutTemplate *template.Template
-	seenPageFiles  []string
-	pageContext    pageContext
+	In     string
+	Out    string
+	Minify bool
+
+	renderCtx  *renderContext
+	items      map[string]item
+	dirtyItems []item
 }
 
 // Build builds the site once and returns.
@@ -46,360 +32,122 @@ func (b *Build) Build() {
 		log.Fatal(err)
 	}
 
-	b.initMinifier()
+	b.renderCtx = newRenderContext(b.Out)
+	b.items = make(map[string]item)
+	if b.Minify {
+		b.renderCtx.settings.minifier = newMinifier()
+	}
 
+	log.Printf("Reading files...\n")
 	for _, file := range files {
-		b.handleFile(file)
-	}
-}
-
-func (b *Build) initMinifier() {
-	if b.Minify {
-		b.minifier = minify.New()
-		b.minifier.AddFunc("text/css", css.Minify)
-		b.minifier.AddFunc("text/html", html.Minify)
-	}
-}
-
-func (b *Build) handleFile(file string) {
-	topDir := file[0:strings.Index(file, string(filepath.Separator))]
-	if topDir == "data" {
-		b.updateDataItem(file)
-	} else if topDir == "pages" {
-		b.updatePageFile(file)
-	} else if topDir == "static" {
-		b.updateStaticFile(file)
-	} else {
-		log.Printf("Unknown file: %s\n", file)
-	}
-}
-
-func (b *Build) trackSeenPageFiles(file string) {
-	found := false
-	for _, seenPageFile := range b.seenPageFiles {
-		if seenPageFile == file {
-			found = true
+		err = b.handleFile(file)
+		if err != nil {
+			log.Fatal(err)
 		}
 	}
 
-	if !found {
-		b.seenPageFiles = append(b.seenPageFiles, file)
+	log.Printf("Rendering site...\n")
+	err = b.render()
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
-func (b *Build) invalidateSeenPageFiles() {
-	for _, file := range b.seenPageFiles {
-		b.handleFile(file)
+func (b *Build) handleFile(name string) error {
+	file, err := fs.ReadFile(b.In, name)
+	if err != nil {
+		return fmt.Errorf("error reading file %s: %v", name, err)
 	}
-}
 
-func (b *Build) updateDataItem(file string) {
-	if filepath.Ext(file) == ".png" {
-		_, typeDir, _, fileName, id := data.ExtractMetadataFromFilePath(file)
-
-		src := filepath.Join(b.In, file)
-		dst := filepath.Join(b.Out, "images", typeDir, id, fileName)
-
-		err := fs.CopyFile(src, dst)
+	item, ok := b.items[file.Name]
+	if ok {
+		err = item.update(file)
 		if err != nil {
-			log.Printf("Error copying static data file %s: %v\n", file, err)
-			return
+			return fmt.Errorf("error handling update to file %s: %v", file.Name, err)
 		}
 	} else {
-		item, err := data.GetItem(filepath.Join(b.In, file))
-		if err != nil {
-			log.Printf("Error getting data item for file %s: %v\n", file, err)
-			return
-		}
-
-		switch item := item.(type) {
-		case *data.Post:
-			for i, post := range b.pageContext.Posts {
-				if post.ID == item.ID {
-					b.pageContext.Posts[i] = item
-					return
-				}
-			}
-
-			b.pageContext.Posts = append(b.pageContext.Posts, item)
-		case *data.Project:
-			for i, project := range b.pageContext.Projects {
-				if project.ID == item.ID {
-					b.pageContext.Projects[i] = item
-					return
-				}
-			}
-
-			b.pageContext.Projects = append(b.pageContext.Projects, item)
-		default:
-			log.Fatal("Unexpected data item type")
-		}
-
-		b.invalidateSeenPageFiles()
-	}
-}
-
-func (b *Build) updatePageFile(file string) {
-	if file[6:] == "_layout.html" {
-		tmpl, err := template.ParseFiles(filepath.Join(b.In, file))
-		if err != nil {
-			log.Printf("Error parsing _layout.html template: %v\n", err)
-			return
-		}
-
-		b.layoutTemplate = tmpl
-		b.invalidateSeenPageFiles()
-	} else if filepath.Base(file) == "_details.html" {
-		metadata, tmpl, err := b.loadPageFile(file)
-		if err != nil {
-			log.Printf("Error loading page file %s: %v\n", file, err)
-			return
-		}
-
-		dataType := filepath.Base(filepath.Dir(file))
-		switch dataType {
-		case "posts":
-			for _, post := range b.pageContext.Posts {
-				id := dataType + "/" + post.ID
-				outfile := filepath.Join(b.Out, id+".html")
-				renderedMetadata, err := renderPageMetadata(metadata, post)
-				if err != nil {
-					log.Printf("Error rendering data page %s metadata: %v\n", id, err)
-					return
-				}
-
-				err = b.renderPageToFile(id, outfile, renderedMetadata, tmpl, post)
-				if err != nil {
-					log.Printf("Error rendering data page %s: %v\n", id, err)
-					return
-				}
-			}
-		case "projects":
-			for _, project := range b.pageContext.Projects {
-				id := dataType + "/" + project.ID
-				outfile := filepath.Join(b.Out, id+".html")
-				renderedMetadata, err := renderPageMetadata(metadata, project)
-				if err != nil {
-					log.Printf("Error rendering data page %s metadata: %v\n", id, err)
-					return
-				}
-
-				err = b.renderPageToFile(id, outfile, renderedMetadata, tmpl, project)
-				if err != nil {
-					log.Printf("Error rendering data page %s: %v\n", id, err)
-					return
-				}
-			}
-		default:
-			log.Printf("Unknown data type %s for file %s\n", dataType, file)
-			return
-		}
-
-		b.trackSeenPageFiles(file)
-	} else {
-		metadata, tmpl, err := b.loadPageFile(file)
-		if err != nil {
-			log.Printf("Error loading page file %s: %v\n", file, err)
-			return
-		}
-
-		id := strings.TrimSuffix(file[6:], filepath.Ext(file))
-		id = strings.Replace(id, string(filepath.Separator), "/", -1)
-		if id == "index" {
-			id = ""
+		topDir := file.Name[0:strings.Index(file.Name, "/")]
+		if topDir == "data" {
+			item, err = b.createDataItem(file)
+		} else if topDir == "pages" {
+			item, err = b.createPageItem(file)
+		} else if topDir == "static" {
+			item, err = b.createStaticFileItem(file)
 		} else {
-			id = strings.TrimSuffix(id, "/index")
+			err = fmt.Errorf("unknown file")
 		}
 
-		outfile := filepath.Join(b.Out, file[6:])
-
-		err = b.renderPageToFile(id, outfile, metadata, tmpl, &b.pageContext)
 		if err != nil {
-			log.Printf("Error rendering page %s: %v\n", file, err)
-			return
+			return fmt.Errorf("error handling file %s: %v", file.Name, err)
 		}
 
-		b.trackSeenPageFiles(file)
-	}
-}
-
-func (b *Build) updateStaticFile(file string) {
-	if filepath.Ext(file) == ".css" {
-		b.updateStylesheet(file)
-		return
-	}
-
-	src := filepath.Join(b.In, file)
-	dst := filepath.Join(b.Out, file[7:])
-
-	err := fs.CopyFile(src, dst)
-	if err != nil {
-		log.Printf("Error copying static file %s: %v\n", file, err)
-		return
-	}
-}
-
-func (b *Build) updateStylesheet(file string) {
-	// Add stylesheet to list if not yet present
-	found := false
-	for _, stylesheet := range b.stylesheets {
-		if stylesheet == file {
-			found = true
-		}
-	}
-
-	if !found {
-		b.stylesheets = append(b.stylesheets, file)
-	}
-
-	// Output concatenated stylesheet.
-	err := os.MkdirAll(b.Out, 0644)
-	if err != nil {
-		log.Printf("Error creating destination folder %s for stylesheet: %v\n", b.Out, err)
-		return
-	}
-
-	var content bytes.Buffer
-	hash := md5.New()
-	writer := newNopWriteCloser(io.MultiWriter(hash, &content))
-
-	if b.Minify {
-		writer = b.minifier.Writer("text/css", writer)
-	}
-
-	for _, stylesheet := range b.stylesheets {
-		source, err := os.Open(filepath.Join(b.In, stylesheet))
-		if err != nil {
-			log.Printf("Error reading stylesheet %s: %v\n", stylesheet, err)
-			continue
+		for _, existingItem := range b.items {
+			item.addItem(existingItem)
+			existingItem.addItem(item)
 		}
 
-		defer source.Close()
-
-		_, err = io.Copy(writer, source)
-		if err != nil {
-			log.Printf("Error copying stylesheet %s: %v\n", stylesheet, err)
-			continue
-		}
+		b.items[file.Name] = item
 	}
 
-	err = writer.Close()
-	if err != nil {
-		log.Printf("Error closing (minify) writer for stylesheets: %v\n", err)
-		return
-	}
-
-	filenameWithHash := fmt.Sprintf("styles-%x.css", hash.Sum(nil)[:8])
-	err = ioutil.WriteFile(filepath.Join(b.Out, filenameWithHash), content.Bytes(), 0644)
-	if err != nil {
-		log.Printf("Error creating new stylesheet: %v\n", err)
-		return
-	}
-
-	if b.stylesheetName != "" {
-		err = os.Remove(filepath.Join(b.Out, b.stylesheetName))
-		if err != nil {
-			log.Printf("Error removing old stylesheet: %v\n", err)
-			return
-		}
-	}
-
-	b.stylesheetName = filenameWithHash
-	b.invalidateSeenPageFiles()
-}
-
-func (b *Build) loadPageFile(file string) (*pageMetadata, *template.Template, error) {
-	metadata := pageMetadata{}
-	content, err := fs.ReadFileWithMetadata(filepath.Join(b.In, file), &metadata)
-	if err != nil {
-		return nil, nil, fmt.Errorf("error reading file with metadata %s: %v", file, err)
-	}
-
-	tmpl, err := template.New("").Parse(content)
-	if err != nil {
-		return nil, nil, fmt.Errorf("error parsing page template %s: %v", file, err)
-	}
-
-	return &metadata, tmpl, nil
-}
-
-func (b *Build) renderPageToFile(
-	id string,
-	outfile string,
-	metadata *pageMetadata,
-	tmpl *template.Template,
-	pageContext interface{},
-) error {
-	var buf bytes.Buffer
-	err := tmpl.Execute(&buf, pageContext)
-	if err != nil {
-		return fmt.Errorf("error executing template %s: %v", id, err)
-	}
-
-	if b.layoutTemplate != nil {
-		// TODO: fill ParentID and ParentTitle
-
-		layoutContext := layoutContext{
-			ID:          id,
-			Title:       metadata.Title,
-			Content:     template.HTML(buf.String()),
-			ParentID:    "",
-			ParentTitle: "",
-			Stylesheet:  b.stylesheetName,
-		}
-
-		err = os.MkdirAll(filepath.Dir(outfile), 0644)
-		if err != nil {
-			return fmt.Errorf("error creating destination folder %s for page %s: %v", outfile, id, err)
-		}
-
-		var destination io.WriteCloser
-		destination, err = os.Create(outfile)
-		if err != nil {
-			return fmt.Errorf("error creating destination %s for page %s: %v", outfile, id, err)
-		}
-
-		if b.Minify {
-			destination = b.minifier.Writer("text/html", destination)
-		}
-
-		err = b.layoutTemplate.Execute(destination, &layoutContext)
-		if err != nil {
-			destination.Close()
-			return fmt.Errorf("error executing layout template for %s: %v", id, err)
-		}
-
-		err = destination.Close()
-		if err != nil {
-			return fmt.Errorf("error closing (minify) writer for %s: %v", id, err)
+	b.dirtyItems = addItemIfNotExists(b.dirtyItems, item)
+	for _, existingItem := range b.items {
+		if existingItem.isDependentOn(item) {
+			b.dirtyItems = addItemIfNotExists(b.dirtyItems, existingItem)
 		}
 	}
 
 	return nil
 }
 
-func renderPageMetadata(metadata *pageMetadata, context interface{}) (*pageMetadata, error) {
-	tmplBytes, err := yaml.Marshal(metadata)
-	if err != nil {
-		return nil, err
+func (b *Build) createDataItem(file *fs.File) (item, error) {
+	if filepath.Ext(file.Name) == ".png" {
+		typeDir, fileName, id := data.ExtractMetadataFromFilePath(file.Name)
+		newName := fmt.Sprintf("static/images/%s/%s/%s", typeDir, id, fileName)
+
+		return b.createStaticFileItem(&fs.File{
+			Name:    newName,
+			Content: file.Content,
+		})
 	}
 
-	tmpl, err := txtTemplate.New("").Parse(string(tmplBytes))
-	if err != nil {
-		return nil, err
+	return newDataItem(file)
+}
+
+func (b *Build) createPageItem(file *fs.File) (item, error) {
+	if file.Name == "pages/_layout.html" {
+		return newLayoutItem(file)
+	} else if filepath.Base(file.Name) == "_details.html" {
+		return newDataPageItem(file)
+	} else {
+		return newPageItem(file)
+	}
+}
+
+func (b *Build) createStaticFileItem(file *fs.File) (item, error) {
+	return newStaticFileItem(file, b.renderCtx.settings)
+}
+
+func (b *Build) render() error {
+	for _, item := range b.dirtyItems {
+		if err := item.render(b.renderCtx); err != nil {
+			return err
+		}
 	}
 
-	var renderedBytes bytes.Buffer
-	err = tmpl.Execute(&renderedBytes, context)
-	if err != nil {
-		return nil, err
-	}
+	b.dirtyItems = nil
+	return nil
+}
 
-	outMetadata := pageMetadata{}
-	err = yaml.Unmarshal(renderedBytes.Bytes(), &outMetadata)
-	if err != nil {
-		return nil, err
+func newRenderContext(out string) *renderContext {
+	return &renderContext{
+		out:      out,
+		settings: &settings{},
 	}
+}
 
-	return &outMetadata, nil
+func newMinifier() *minify.M {
+	minifier := minify.New()
+	minifier.AddFunc("text/css", css.Minify)
+	minifier.AddFunc("text/html", html.Minify)
+	return minifier
 }

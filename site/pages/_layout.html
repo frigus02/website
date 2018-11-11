@@ -11,7 +11,11 @@
     <title>Jan Kühle</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pontano+Sans">
-    <link rel="stylesheet" href="{{ .Stylesheet }}">
+    {{- range $file := .StaticFiles }}
+    {{- if hasSuffix $file ".css" }}
+    <link rel="stylesheet" href="{{ $file }}">
+    {{- end }}
+    {{- end }}
 </head>
 <body>
     <header class="header">
@@ -28,9 +32,9 @@
     </div>
 
     <aside class="socials">
-        <a href="https://github.com/frigus02" title="GitHub"><img src="images/socials/github.png" alt="GitHub"></a>
-        <a href="https://stackoverflow.com/users/1798215/jan" title="Stack Overflow"><img src="images/socials/stack-overflow.png" alt="Stack Overflow"></a>
-        <a href="https://twitter.com/frigus02" title="Twitter"><img src="images/socials/twitter.png" alt="Twitter"></a>
+        <a href="https://github.com/frigus02" title="GitHub"><img src='{{ index .StaticFiles "images/socials/github.png" }}' alt="GitHub"></a>
+        <a href="https://stackoverflow.com/users/1798215/jan" title="Stack Overflow"><img src='{{ index .StaticFiles "images/socials/stack-overflow.png" }}' alt="Stack Overflow"></a>
+        <a href="https://twitter.com/frigus02" title="Twitter"><img src='{{ index .StaticFiles "images/socials/twitter.png" }}' alt="Twitter"></a>
     </aside>
 
     <footer class="footer">

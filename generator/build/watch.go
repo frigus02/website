@@ -17,13 +17,27 @@ func (b *Build) Watch() {
 		log.Fatal(err)
 	}
 
-	b.initMinifier()
-
-	for _, file := range files {
-		b.handleFile(file)
+	b.renderCtx = newRenderContext(b.Out)
+	b.items = make(map[string]item)
+	if b.Minify {
+		b.renderCtx.settings.minifier = newMinifier()
 	}
 
-	log.Printf("Built site. Now watching for changes (press Ctrl+C to stop)...\n")
+	log.Printf("Reading files...\n")
+	for _, file := range files {
+		err = b.handleFile(file)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	log.Printf("Rendering site...\n")
+	err = b.render()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Watching for changes (press Ctrl+C to stop)...\n")
 
 	watcher.Run()
 	defer watcher.Close()
@@ -36,7 +50,15 @@ out:
 		select {
 		case file := <-watcher.Files:
 			log.Printf("File changed: %s\n", file)
-			b.handleFile(file)
+			err = b.handleFile(file)
+			if err != nil {
+				log.Printf("Error: %v\n", err)
+			} else {
+				err = b.render()
+				if err != nil {
+					log.Printf("Error: %v\n", err)
+				}
+			}
 		case sig := <-sigs:
 			log.Printf("Received signal: %v\n", sig)
 			break out

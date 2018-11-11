@@ -24,25 +24,10 @@ func getIDFromItemDir(itemDir string) string {
 	return strings.TrimLeft(itemDir, "0123456789-")
 }
 
-func readDataItem(path, itemDir string, item baseItem) error {
-	item.setID(getIDFromItemDir(itemDir))
-
-	filename := filepath.Join(path, itemDir, dataItemFile)
-	content, err := fs.ReadFileWithMetadata(filename, item)
-	if err != nil {
-		return err
-	}
-
-	htmlContent := blackfriday.Run([]byte(content))
-
-	item.setContent(template.HTML(htmlContent))
-	return nil
-}
-
 // GetItem reads a data item from the file system based on any file in the
 // items directory, deciding the item type from the folder name.
-func GetItem(file string) (interface{}, error) {
-	typePath, typeDir, itemDir, _, _ := ExtractMetadataFromFilePath(file)
+func GetItem(file *fs.File) (interface{}, error) {
+	typeDir, _, id := ExtractMetadataFromFilePath(file.Name)
 
 	var item baseItem
 	switch typeDir {
@@ -54,20 +39,25 @@ func GetItem(file string) (interface{}, error) {
 		return nil, fmt.Errorf("unknown type: %s", typeDir)
 	}
 
-	err := readDataItem(typePath, itemDir, item)
+	content, err := file.SplitMetadataAndContent(item)
 	if err != nil {
 		return nil, err
 	}
+
+	htmlContent := blackfriday.Run([]byte(content))
+
+	item.setID(id)
+	item.setContent(template.HTML(htmlContent))
 
 	return item, nil
 }
 
 // ExtractMetadataFromFilePath extracts typePath, typeDir, itemDir and id from
 // a file in the data directory.
-func ExtractMetadataFromFilePath(file string) (typePath, typeDir, itemDir, fileName, id string) {
+func ExtractMetadataFromFilePath(file string) (typeDir, fileName, id string) {
 	itemPath := filepath.Dir(file)
-	itemDir = filepath.Base(itemPath)
-	typePath = filepath.Dir(itemPath)
+	itemDir := filepath.Base(itemPath)
+	typePath := filepath.Dir(itemPath)
 	typeDir = filepath.Base(typePath)
 	fileName = filepath.Base(file)
 	id = getIDFromItemDir(itemDir)

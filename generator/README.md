@@ -41,7 +41,10 @@ The layout will be rendered with this model:
     "Content": "<section>Address: ...</section>",
     "ParentID": "index",
     "ParentTitle": "About",
-    "Stylesheet": "fb5jh3g5j3.css"
+    "StaticFiles": {
+        "images/me.jpg": "static/images/me-<hash>.jpg",
+        "styles/abc.css": "static/styles/abc-<hash>.css"
+    }
 }
 ```
 
@@ -50,8 +53,22 @@ Normal pages will be rendered with this model:
 ```json
 {
     "Posts": [],
-    "Projects": []
+    "Projects": [],
+    "StaticFiles": {
+        "images/me.jpg": "static/images/me-<hash>.jpg",
+        "styles/abc.css": "static/styles/abc-<hash>.css"
+    }
 }
 ```
 
-Data pages (pages showing the details of one data entry) have the model of their respective data type.
+Data pages (pages showing the details of one data entry) have the model of their respective data type in the property "Item" of the following model:
+
+```json
+{
+    "Item": {},
+    "StaticFiles": {
+        "images/me.jpg": "static/images/me-<hash>.jpg",
+        "styles/abc.css": "static/styles/abc-<hash>.css"
+    }
+}
+```
