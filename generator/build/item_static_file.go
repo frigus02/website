@@ -56,9 +56,9 @@ func (i *staticFileItem) update(file *fs.File) error {
 	}
 
 	origBase := filepath.Base(file.Name)
-	if origBase == file.Name {
-		// Don't use hashes in top level files. These usually rely on their
-		// exact name, e.g. ".htaccess" or "favicon.ico".
+	if origBase == file.Name || strings.HasPrefix(origBase, ".") {
+		// Don't use hashes in top level or dot files. These usually rely on
+		// their exact name, e.g. ".htaccess" or "favicon.ico".
 		i.name = file.Name
 	} else {
 		origExt := filepath.Ext(file.Name)
