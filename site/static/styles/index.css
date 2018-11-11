@@ -4,6 +4,10 @@
     border: 3px solid #fff;
 }
 
+.index-about img {
+    display: none;
+}
+
 .index-more {
     margin-top: 2em;
 }
@@ -25,10 +29,12 @@
     }
 
     .index-about {
-        background: url('../images/about_arrow.png') no-repeat;
         margin-left: 1em;
         margin-top: 1em;
-        padding-top: 100px;
+    }
+
+    .index-about img {
+        display: block;
     }
 }
 
