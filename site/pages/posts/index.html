@@ -6,7 +6,7 @@ title: "Posts"
     {{- range $post := .Posts }}
     <li>
         <a href="/posts/{{ $post.ID }}">
-            <h3>{{ .Title }}</h3>
+            <h3>{{ .Metadata.Title }}</h3>
             <span class="posts-datetime">{{ formatDate $post.Metadata.Datetime }}</span>
             <span class="posts-tags">
                 {{- range $tag := $post.Metadata.Tags }}

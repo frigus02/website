@@ -37,6 +37,8 @@ func (b *Build) Build() {
 		b.renderCtx.settings.minifier = newMinifier()
 	}
 
+	b.items["#feed"] = newFeedItem()
+
 	log.Printf("Reading files...\n")
 	for _, file := range files {
 		err = b.handleFile(file)
