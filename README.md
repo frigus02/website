@@ -4,9 +4,15 @@ This is the source of my private website [kuehle.me](https://kuehle.me).
 
 ## Build
 
-```
-yarn global add polymer-cli
-yarn install
-yarn build:data
-yarn start
-```
+1. Install generator
+
+    ```
+    cd generator
+    go install
+    ```
+
+2. Run generator
+
+    ```
+    generator -in site [-watch] [-minify]
+    ```

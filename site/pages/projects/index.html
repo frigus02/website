@@ -1,0 +1,21 @@
+---
+title: "Projects"
+---
+
+<ul class="big-list">
+    {{- range $project := .Projects }}
+    <li>
+        <a href="/projects/{{ $project.ID }}">
+            <h3>{{ $project.Metadata.Title }}</h3>
+            <img class="projects-icon" src='{{ index $.StaticFiles (printf "data/projects/%s/icon_large.png" $project.ID) }}' alt="">
+            <div class="projects-description">{{ $project.Metadata.ShortDescription }}</div>
+            <div class="projects-tags">
+                {{- range $tag := $project.Metadata.Tags }}
+                <span class="projects-tag">{{ $tag }}</span>
+                {{- end }}
+            </div>
+            <div class="projects-clear"></div>
+        </a>
+    </li>
+    {{- end }}
+</ul>
