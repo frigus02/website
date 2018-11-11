@@ -7,13 +7,13 @@ title: "Posts"
     <li>
         <a href="/posts/{{ $post.ID }}">
             <h3>{{ .Title }}</h3>
-            <span class="posts-datetime">{{ formatDate $post.Datetime }}</span>
+            <span class="posts-datetime">{{ formatDate $post.Metadata.Datetime }}</span>
             <span class="posts-tags">
-                {{- range $tag := $post.Tags }}
+                {{- range $tag := $post.Metadata.Tags }}
                 <span class="posts-tag">{{ $tag }}</span>
                 {{- end }}
             </span>
-            <p>{{ $post.Summary }}</p>
+            <p>{{ $post.Metadata.Summary }}</p>
         </a>
     </li>
     {{- end }}

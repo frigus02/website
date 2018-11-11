@@ -4,8 +4,6 @@ import (
 	"html/template"
 	"strings"
 	"time"
-
-	"github.com/frigus02/website/generator/data"
 )
 
 type layoutContext struct {
@@ -18,13 +16,22 @@ type layoutContext struct {
 }
 
 type pageContext struct {
-	Posts       []*data.Post
-	Projects    []*data.Project
+	Posts       []*pageContextDataItem
+	Projects    []*pageContextDataItem
 	StaticFiles map[string]string
 }
 
+type pageContextDataItem struct {
+	ID       string
+	Order    int
+	Metadata interface{}
+}
+
 type dataPageContext struct {
-	Item        interface{}
+	ID          string
+	Order       int
+	Metadata    interface{}
+	Content     template.HTML
 	StaticFiles map[string]string
 }
 

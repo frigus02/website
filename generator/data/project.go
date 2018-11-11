@@ -1,31 +1,16 @@
 package data
 
-import "html/template"
+// ProjectsDir is the directly name under "data/", which contains projects.
+const ProjectsDir = "projects"
 
-const projectsDir = "projects"
-
-// Project is the data model for one project.
-type Project struct {
-	ID               string
-	Order            int
+// ProjectMetadata contains the metadata for the YAML header stored in project
+// markdown files.
+type ProjectMetadata struct {
 	Title            string          `yaml:"title"`
 	ShortDescription string          `yaml:"short_description"`
 	Images           []ProjectImage  `yaml:"images"`
 	Sources          []ProjectSource `yaml:"sources"`
 	Tags             []string        `yaml:"tags"`
-	Content          template.HTML
-}
-
-func (p *Project) setID(id string) {
-	p.ID = id
-}
-
-func (p *Project) setOrder(order int) {
-	p.Order = order
-}
-
-func (p *Project) setContent(content template.HTML) {
-	p.Content = content
 }
 
 // ProjectImage is the data model for images referenced in a Project.

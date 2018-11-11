@@ -1,40 +1,40 @@
 ---
-title: "{{ .Item.Title }}"
+title: "{{ .Metadata.Title }}"
 ---
 
 <article>
     <header>
-        <img class="projects-details-logo" src='{{ index .StaticFiles (printf "images/projects/%s/icon_large.png" .Item.ID) }}' alt="">
-        <h3>{{ .Item.Title }}</h3>
+        <img class="projects-details-logo" src='{{ index .StaticFiles (printf "data/projects/%s/icon_large.png" .ID) }}' alt="">
+        <h3>{{ .Metadata.Title }}</h3>
     </header>
     <section>
-        {{ .Item.Content }}
+        {{ .Content }}
     </section>
     <section class="projects-details-tags">
-        {{- range $tag := .Item.Tags }}
+        {{- range $tag := .Metadata.Tags }}
         <span class="projects-details-tag">{{ $tag }}</span>
         {{- end }}
     </section>
     <section class="projects-details-images">
-        {{- range $image := .Item.Images }}
-        <a href='{{ index $.StaticFiles (printf "images/projects/%s/%s.png" $.Item.ID $image.Name) }}' target="_blank">
-            <img src='{{ index $.StaticFiles (printf "images/projects/%s/%s_thumb.png" $.Item.ID $image.Name) }}' alt="{{ $image.Alt }}">
+        {{- range $image := .Metadata.Images }}
+        <a href='{{ index $.StaticFiles (printf "data/projects/%s/%s.png" $.ID $image.Name) }}' target="_blank">
+            <img src='{{ index $.StaticFiles (printf "data/projects/%s/%s_thumb.png" $.ID $image.Name) }}' alt="{{ $image.Alt }}">
         </a>
         {{- end }}
     </section>
     <section class="projects-details-getit">
-        {{- range $source := .Item.Sources }}
+        {{- range $source := .Metadata.Sources }}
         <a href="{{ $source.URL }}" target="_blank">
             {{- if eq $source.Type "googleplay" -}}
-            <img src='{{ index $.StaticFiles "images/projects/google-play.png" }}' alt="Get it on Google Play">
+            <img src='{{ index $.StaticFiles "images/sources/google-play.png" }}' alt="Get it on Google Play">
             {{- else if eq $source.Type "git" -}}
-            <img src='{{ index $.StaticFiles "images/projects/git.png" }}' alt="Get the source">
+            <img src='{{ index $.StaticFiles "images/sources/git.png" }}' alt="Get the source">
             {{- else if eq $source.Type "amo" -}}
-            <img src='{{ index $.StaticFiles "images/projects/amo.png" }}' alt="Get it on AMO">
+            <img src='{{ index $.StaticFiles "images/sources/amo.png" }}' alt="Get it on AMO">
             {{- else if eq $source.Type "chromewebstore" -}}
-            <img src='{{ index $.StaticFiles "images/projects/chromewebstore.png" }}' alt="Get it on the Chrome Web Store">
+            <img src='{{ index $.StaticFiles "images/sources/chromewebstore.png" }}' alt="Get it on the Chrome Web Store">
             {{- else if eq $source.Type "try" -}}
-            <img src='{{ index $.StaticFiles "images/projects/tryit.png" }}' alt="Try it in the browser">
+            <img src='{{ index $.StaticFiles "images/sources/tryit.png" }}' alt="Try it in the browser">
             {{- end -}}
         </a>
         {{- end }}

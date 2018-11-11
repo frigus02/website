@@ -10,7 +10,6 @@ import (
 	"github.com/tdewolff/minify/v2/css"
 	"github.com/tdewolff/minify/v2/html"
 
-	"github.com/frigus02/website/generator/data"
 	"github.com/frigus02/website/generator/fs"
 )
 
@@ -100,13 +99,14 @@ func (b *Build) handleFile(name string) error {
 }
 
 func (b *Build) createDataItem(file *fs.File) (item, error) {
-	if filepath.Ext(file.Name) == ".png" {
-		typeDir, fileName, id, _, err := data.ExtractMetadataFromFilePath(file.Name)
+	fileName := filepath.Base(file.Name)
+	if fileName != "index.md" {
+		typeDir, id, _, err := getMetadataFromFileName(file.Name)
 		if err != nil {
 			return nil, err
 		}
 
-		newName := fmt.Sprintf("static/images/%s/%s/%s", typeDir, id, fileName)
+		newName := fmt.Sprintf("static/data/%s/%s/%s", typeDir, id, fileName)
 
 		return b.createStaticFileItem(&fs.File{
 			Name:    newName,

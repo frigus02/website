@@ -1,18 +1,18 @@
 ---
-title: "{{ .Item.Title }}"
+title: "{{ .Metadata.Title }}"
 ---
 
 <article>
     <header>
-        <h3>{{ .Item.Title }}</h3>
-        <span class="posts-details-datetime">{{ formatDate .Item.Datetime }}</span>
+        <h3>{{ .Metadata.Title }}</h3>
+        <span class="posts-details-datetime">{{ formatDate .Metadata.Datetime }}</span>
         <span class="posts-details-tags">
-            {{- range $tag := .Item.Tags }}
+            {{- range $tag := .Metadata.Tags }}
             <span class="posts-details-tag">{{ $tag }}</span>
             {{- end }}
         </span>
     </header>
     <section class="posts-details-content">
-        {{ .Item.Content }}
+        {{ .Content }}
     </section>
 </article>
