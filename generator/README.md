@@ -11,7 +11,7 @@
 |  |  `- 00-my-post-1
 |  |     `- index.md          - Metadata and content of the post
 |  `- projects
-|     `- 00-my-project-1
+|     `- 20150102-my-project-1
 |        |- icon_large.png    - Large icon for the project
 |        |- icon.png          - Icon for the project
 |        |- image1_thumb.png  - Thumbnail for the image "image1"
