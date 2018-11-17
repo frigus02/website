@@ -10,11 +10,6 @@ title: "{{ .Metadata.Title }}"
     <section>
         {{ .Content }}
     </section>
-    <section class="projects-details-tags">
-        {{- range $tag := .Metadata.Tags }}
-        <span class="projects-details-tag">{{ $tag }}</span>
-        {{- end }}
-    </section>
     <section class="projects-details-images">
         {{- range $image := .Metadata.Images }}
         <a href='{{ index $.StaticFiles (printf "data/projects/%s/%s.png" $.ID $image.Name) }}' target="_blank">

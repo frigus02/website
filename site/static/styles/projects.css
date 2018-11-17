@@ -12,14 +12,7 @@
     margin-top: 15px;
     margin-left: 135px;
     font-size: 0.8em;
-}
-
-.projects-tag {
-    display: inline-block;
-    padding: 2px 5px;
-    background-color: #ccc;
-    margin: 3px;
-    border-radius: 1px;
+    font-style: italic;
 }
 
 .projects-clear {

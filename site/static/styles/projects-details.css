@@ -4,17 +4,6 @@
     height: 48px;
 }
 
-.projects-details-tags {
-    font-size: 0.8em;
-}
-
-.projects-details-tag {
-    padding: 2px 5px;
-    background-color: #eee;
-    margin: 3px;
-    border-radius: 1px;
-}
-
 .projects-details-images {
     background-color: #f0f0f0;
     border-radius: .5em;

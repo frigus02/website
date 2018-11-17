@@ -5,13 +5,7 @@
 
 .posts-details-tags {
     font-size: 0.8em;
-}
-
-.posts-details-tag {
-    padding: 2px 5px;
-    background-color: #eee;
-    margin: 3px;
-    border-radius: 1px;
+    font-style: italic;
 }
 
 .posts-details-content pre {

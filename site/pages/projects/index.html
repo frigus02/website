@@ -10,9 +10,9 @@ title: "Projects"
             <img class="projects-icon" src='{{ index $.StaticFiles (printf "data/projects/%s/icon_large.png" $project.ID) }}' alt="">
             <div class="projects-description">{{ $project.Metadata.ShortDescription }}</div>
             <div class="projects-tags">
-                {{- range $tag := $project.Metadata.Tags }}
-                <span class="projects-tag">{{ $tag }}</span>
-                {{- end }}
+                {{- range $index, $tag := $project.Metadata.Tags -}}
+                {{ if $index }}, {{ end }}{{ $tag }}
+                {{- end -}}
             </div>
             <div class="projects-clear"></div>
         </a>

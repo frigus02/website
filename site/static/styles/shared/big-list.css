@@ -4,22 +4,18 @@
     margin: 0;
 }
 
-.big-list li {
+.big-list a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-color);
     background-color: #eee;
-    border-radius: 3px;
     padding: 20px;
     transition: background-color 0.2s;
     margin-bottom: 20px;
 }
 
-.big-list li:hover {
-    background-color: #bbb;
-}
-
-.big-list li > a {
-    display: block;
-    text-decoration: none;
-    color: var(--text-color);
+.big-list a:hover {
+    background-color: #ddd;
 }
 
 .big-list h3 {
