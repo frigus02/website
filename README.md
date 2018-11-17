@@ -14,5 +14,5 @@ This is the source of my private website [kuehle.me](https://kuehle.me).
 2. Run generator
 
     ```
-    generator -in site [-watch] [-minify]
+    generator -in site [-mode watch] [-prod]
     ```

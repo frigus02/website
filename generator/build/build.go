@@ -15,10 +15,12 @@ import (
 
 // Build builds the website and is able to continuously update the output.
 type Build struct {
-	In     string
-	Out    string
-	Minify bool
+	In        string
+	Out       string
+	Minify    bool
+	ConcatCSS bool
 
+	fileReader fileReader
 	renderCtx  *renderContext
 	items      map[string]item
 	dirtyItems []item
@@ -29,6 +31,12 @@ func (b *Build) Build() {
 	files, _, err := fs.ListRecursive(b.In)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	if b.ConcatCSS {
+		b.fileReader = newCSSConcatFileReader()
+	} else {
+		b.fileReader = newSimpleFileReader()
 	}
 
 	b.renderCtx = newRenderContext(b.Out)
@@ -55,7 +63,7 @@ func (b *Build) Build() {
 }
 
 func (b *Build) handleFile(name string) error {
-	file, err := fs.ReadFile(b.In, name)
+	file, err := b.fileReader.readFile(b.In, name)
 	if err != nil {
 		return fmt.Errorf("error reading file %s: %v", name, err)
 	}

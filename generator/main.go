@@ -12,12 +12,12 @@ func main() {
 	var mode string
 	var in string
 	var out string
-	var minify bool
+	var prod bool
 	var help bool
 	flag.StringVar(&mode, "mode", "build", "Mode: build or watch")
 	flag.StringVar(&in, "in", ".", "Path to the site folder")
 	flag.StringVar(&out, "out", "build", "Path to output folder")
-	flag.BoolVar(&minify, "minify", false, "Minify HTML and CSS output")
+	flag.BoolVar(&prod, "prod", false, "Concat CSS and minify HTML and CSS output")
 	flag.BoolVar(&help, "help", false, "Show help")
 	flag.Parse()
 
@@ -26,7 +26,12 @@ func main() {
 		return
 	}
 
-	b := build.Build{In: in, Out: out, Minify: minify}
+	b := build.Build{
+		In:        in,
+		Out:       out,
+		Minify:    prod,
+		ConcatCSS: prod,
+	}
 	switch mode {
 	case "build":
 		b.Build()

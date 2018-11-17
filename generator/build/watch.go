@@ -17,6 +17,12 @@ func (b *Build) Watch() {
 		log.Fatal(err)
 	}
 
+	if b.ConcatCSS {
+		b.fileReader = newCSSConcatFileReader()
+	} else {
+		b.fileReader = newSimpleFileReader()
+	}
+
 	b.renderCtx = newRenderContext(b.Out)
 	b.items = make(map[string]item)
 	if b.Minify {
