@@ -9,7 +9,7 @@ import (
 
 	"github.com/frigus02/website/generator/data"
 	"github.com/frigus02/website/generator/fs"
-	"github.com/russross/blackfriday"
+	"github.com/russross/blackfriday/v2"
 )
 
 type dataItem struct {

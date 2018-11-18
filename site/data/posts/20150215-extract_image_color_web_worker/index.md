@@ -13,12 +13,12 @@ following steps:
 
 1.  Create a `canvas` element and draw the image on its 2d context.
 
-2.  Get the pixel data from the context using `getImageData` method.
+1.  Get the pixel data from the context using `getImageData` method.
 
     **Note:** When you want to load images from another domain, you need to add the `crossorigin`
     attribute to the `img` tag ([more information on the MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/CORS_enabled_image)).
 
-3.  Calulate the dominant pixel color.
+1.  Calulate the dominant pixel color.
 
 Thankfully there is a nice JavaScript library out there, so we do not need to implement all
 logic by outself: [Color Thief](http://lokeshdhakar.com/projects/color-thief/). The following

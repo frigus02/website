@@ -32,7 +32,7 @@ func ReadFile(path, name string) (*File, error) {
 
 // SplitMetadataAndContent reads a file, which contains YAML metadata at the
 // start.
-func (f *File) SplitMetadataAndContent(outMetadata interface{}) (content string, err error) {
+func (f *File) SplitMetadataAndContent(outMetadata interface{}) (string, error) {
 	data := string(f.Content)
 
 	// Parse metadata.
@@ -43,10 +43,12 @@ func (f *File) SplitMetadataAndContent(outMetadata interface{}) (content string,
 	}
 
 	metadata := data[metadataStart+3 : metadataEnd]
-	err = yaml.Unmarshal([]byte(metadata), outMetadata)
+	err := yaml.Unmarshal([]byte(metadata), outMetadata)
 	if err != nil {
 		return "", err
 	}
 
-	return data[metadataEnd+3:], nil
+	content := strings.TrimSpace(data[metadataEnd+3:])
+
+	return content, nil
 }
