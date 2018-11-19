@@ -29,19 +29,25 @@ other OS.
 1.  Connect your smartphone to your computer using USB cable and make a backup of your
     Firefox app using ADB:
 
-        adb backup org.mozilla.firefox
+    ```posh
+    adb backup org.mozilla.firefox
+    ```
 
 1.  Download the [Android Backup Extractor](https://sourceforge.net/projects/adbextractor/).
     It's a tool to convert ADB backup files to tar archives, which you can easily extract.
     Use it with your backup:
 
-        java -jar .\android-backup-extractor-20151102-bin\abe.jar unpack .\backup.ab .\backup.tar
+    ```posh
+    java -jar .\android-backup-extractor-20151102-bin\abe.jar unpack .\backup.ab .\backup.tar
+    ```
 
     Then extract the tar archive with any tool you want (e.g. 7-Zip).
 
 1.  Now browse the backup and Locate your Firefox profile. It should be in a folder similar to this:
 
-        apps\org.mozilla.firefox\f\mozilla\dx7e9l2j.default
+    ```
+    apps\org.mozilla.firefox\f\mozilla\dx7e9l2j.default
+    ```
 
     You should be able to find the files cert9.db and key4.db in it. These files contain the
     client certificate. In order to extract it you need to the pk12util from Mozilla's
@@ -53,17 +59,21 @@ other OS.
 
     1.  Clone the repositories:
 
-            mkdir nss-with-nspr
-            cd nss-with-nspr
-            hg clone https://hg.mozilla.org/projects/nspr
-            hg clone https://hg.mozilla.org/projects/nss
+        ```posh
+        mkdir nss-with-nspr
+        cd nss-with-nspr
+        hg clone https://hg.mozilla.org/projects/nspr
+        hg clone https://hg.mozilla.org/projects/nss
+        ```
 
     1.  Install MozillaBuildSetup-Latest.exe
 
     1.  Open start-shell-msvc2013.bat from mozilla build tools, navigate to the created nss-with-nspr\nss
         and folder and execute the command:
 
-            make nss_build_all
+        ```posh
+        make nss_build_all
+        ```
 
     1.  Find pk12util.exe and certutil.exe in a folder similar to nss-with-nspr\dist\WIN954.0_DBG.OBJ\bin.
 
@@ -75,12 +85,16 @@ other OS.
 
 1.  Then you can extract the certificate with the following commands:
 
-        ..\bin\certutil.exe -K -d sql:.
+    ```posh
+    ..\bin\certutil.exe -K -d sql:.
+    ```
 
     This will show all available certificates. Copy the certificate name from the last column and
     execute (enter any password you like, when asked):
 
-        ..\bin\pk12util.exe -o cert.p12 -n "YOUR CERTIFICATE NAME" -d sql:.
+    ```posh
+    ..\bin\pk12util.exe -o cert.p12 -n "YOUR CERTIFICATE NAME" -d sql:.
+    ```
 
 1.  Congratulations. You should now have a file cert.p12 in your current working directory, which you
     can import in your Firefox on Desktop.

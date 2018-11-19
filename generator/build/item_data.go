@@ -12,6 +12,8 @@ import (
 	"github.com/russross/blackfriday/v2"
 )
 
+var markdownRenderer = blackfriday.WithRenderer(newChromaRenderer())
+
 type dataItem struct {
 	id       string
 	order    int
@@ -53,7 +55,7 @@ func (i *dataItem) update(file *fs.File) error {
 		return err
 	}
 
-	htmlContent := blackfriday.Run([]byte(content))
+	htmlContent := blackfriday.Run([]byte(content), markdownRenderer)
 
 	i.id = id
 	i.order = order

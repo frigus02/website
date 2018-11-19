@@ -24,19 +24,21 @@ Thankfully there is a nice JavaScript library out there, so we do not need to im
 logic by outself: [Color Thief](http://lokeshdhakar.com/projects/color-thief/). The following
 example extracts the color from an image and applies as the background color:
 
-    <div>
-        <img id="myImage" src="/images/example.png">
-    </div>
+```html
+<div>
+    <img id="myImage" src="/images/example.png">
+</div>
 
-    <script>
-        var myImage = document.getElementById('myImage');
-        myImage.addEventListener('load', function() {
-            var colorThief = new ColorThief(),
-                color = colorThief.getColor(myImage);
+<script>
+    var myImage = document.getElementById('myImage');
+    myImage.addEventListener('load', function() {
+        var colorThief = new ColorThief(),
+            color = colorThief.getColor(myImage);
 
-            myImage.parentNode.style.backgroundColor = 'rgb(' + color[0] + ', ' + color[1] + ', ' + color[2] + ')';
-        });
-    </script>
+        myImage.parentNode.style.backgroundColor = 'rgb(' + color[0] + ', ' + color[1] + ', ' + color[2] + ')';
+    });
+</script>
+```
 
 This works well for a few small images. But when trying to do this for a couple of big images
 at once, it slows down the browser and results in hangs/lags on the website. Wo don't want
@@ -50,33 +52,37 @@ be done separatly.
 To explain the use of web workers a little bit, imaging the image from the example above. In the
 main JavaScript we have to follwing code in the image onload event:
 
-    // Setting up the web worker.
-    var worker = new Worker('worker.js');
-    worker.addEventListener('message', function(e) {
-        var color = e.data;
+```js
+// Setting up the web worker.
+var worker = new Worker('worker.js');
+worker.addEventListener('message', function(e) {
+    var color = e.data;
 
-        myImage.parentNode.style.backgroundColor = 'rgb(' + color[0] + ', ' + color[1] + ', ' + color[2] + ')';
-    });
+    myImage.parentNode.style.backgroundColor = 'rgb(' + color[0] + ', ' + color[1] + ', ' + color[2] + ')';
+});
 
-    // Starting the web worker.
-    // (Imagine the function getImageDataUsingCanvas to create a
-    // canvas, drawing the image on its context and then returning
-    // the image data.)
-    var imageData = getImageDataUsingCanvas(myImage);
-    worker.postMessage(imageData);
+// Starting the web worker.
+// (Imagine the function getImageDataUsingCanvas to create a
+// canvas, drawing the image on its context and then returning
+// the image data.)
+var imageData = getImageDataUsingCanvas(myImage);
+worker.postMessage(imageData);
+```
 
 Then in the worker.js file, we have the following code:
 
-    addEventListener('message', function(e) {
-        var imageData = e.data;
+```js
+addEventListener('message', function(e) {
+    var imageData = e.data;
 
-        // The getColor function is a modified version of the
-        // ColorThief.getColor function, which directly accepts
-        // the pixel data as an argument.
-        var color = getColor(imageData);
+    // The getColor function is a modified version of the
+    // ColorThief.getColor function, which directly accepts
+    // the pixel data as an argument.
+    var color = getColor(imageData);
 
-        postMessage(color);
-    });
+    postMessage(color);
+});
+```
 
 I made up a full example with and without web workers, so you can see the impact it has on the
 overall performance:
