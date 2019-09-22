@@ -1,0 +1,20 @@
+.projects-icon {
+    width: 120px;
+    height: 120px;
+    float: left;
+}
+
+.projects-description {
+    margin-left: 135px;
+}
+
+.projects-tags {
+    margin-top: 15px;
+    margin-left: 135px;
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+.projects-clear {
+    clear: left;
+}
