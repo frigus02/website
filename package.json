@@ -12,6 +12,7 @@
     "prettier": "^1.18.2"
   },
   "scripts": {
+    "start": "eleventy --serve",
     "build": "eleventy",
 		"format": "prettier --write \"**/*.{html,js,css,md}\""
   }
