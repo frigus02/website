@@ -1,52 +1,52 @@
 .index-me {
-    width: 100%;
-    border-radius: 50%;
-    border: 3px solid #000;
+	width: 100%;
+	border-radius: 50%;
+	border: 3px solid #000;
 }
 
 .index-about img {
-    display: none;
+	display: none;
 }
 
 .index-more {
-    margin-top: 2em;
+	margin-top: 2em;
 }
 
 .index-more nav {
-    margin-top: 1em;
-    text-align: center;
+	margin-top: 1em;
+	text-align: center;
 }
 
 .index-more .button {
-    width: 4em;
+	width: 4em;
 }
 
 @media (min-width: 320px) {
-    .index-me {
-        float: right;
-        width: 150px;
-        border-radius: 75px;
-    }
+	.index-me {
+		float: right;
+		width: 150px;
+		border-radius: 75px;
+	}
 
-    .index-about {
-        margin-left: 1em;
-        margin-top: 1em;
-    }
+	.index-about {
+		margin-left: 1em;
+		margin-top: 1em;
+	}
 
-    .index-about img {
-        display: block;
-    }
+	.index-about img {
+		display: block;
+	}
 }
 
 @media (min-width: 600px) {
-    .index-me {
-        width: 200px;
-        border-radius: 100px;
-        margin-right: 2em;
-    }
+	.index-me {
+		width: 200px;
+		border-radius: 100px;
+		margin-right: 2em;
+	}
 
-    .index-about {
-        margin-left: 3em;
-        margin-top: 2em;
-    }
+	.index-about {
+		margin-left: 3em;
+		margin-top: 2em;
+	}
 }

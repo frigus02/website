@@ -4,18 +4,17 @@ title: Posts
 ---
 
 <ul class="big-list">
-  {% for post in collections.posts | reverse -%}
-  <li>
-    <a href="{{ post.url }}">
-      <h3>{{ post.data.metadata.title }}</h3>
-      <span class="posts-datetime">{{ post.date | formatDate }}</span>
-      <span class="posts-tags">
-        {%- for tag in post.data.metadata.tags -%}
-        {{ ", " if not loop.first }}{{ tag }}
-        {%- endfor -%}
-      </span>
-      <p>{{ post.data.metadata.summary }}</p>
-    </a>
-  </li>
-  {%- endfor %}
+	{% for post in collections.posts | reverse -%}
+	<li>
+		<a href="{{ post.url }}">
+			<h3>{{ post.data.metadata.title }}</h3>
+			<span class="posts-datetime">{{ post.date | formatDate }}</span>
+			<span class="posts-tags">
+				{%- for tag in post.data.metadata.tags -%} {{ ", " if not loop.first
+				}}{{ tag }} {%- endfor -%}
+			</span>
+			<p>{{ post.data.metadata.summary }}</p>
+		</a>
+	</li>
+	{%- endfor %}
 </ul>

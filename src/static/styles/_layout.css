@@ -1,32 +1,32 @@
 body {
-    font-family: 'Pontano Sans', 'Helvetica', sans-serif;
-    min-height: 100vh;
-    max-width: 500px;
-    padding: 0 0.5em;
-    margin: 0 auto;
-    position: relative;
+	font-family: "Pontano Sans", "Helvetica", sans-serif;
+	min-height: 100vh;
+	max-width: 500px;
+	padding: 0 0.5em;
+	margin: 0 auto;
+	position: relative;
 }
 
 .header h1,
 .header h2 {
-    display: inline-block;
+	display: inline-block;
 }
 
 .header h1 a,
 .header h2 a {
-    text-decoration: none;
-    color: var(--text-color);
+	text-decoration: none;
+	color: var(--text-color);
 }
 
 .header h2 {
-    margin-left: 0.3em;
+	margin-left: 0.3em;
 }
 
 .header h2:before {
-    content: "/ ";
+	content: "/ ";
 }
 
 .footer {
-    text-align: center;
-    margin: 2em 0;
+	text-align: center;
+	margin: 2em 0;
 }

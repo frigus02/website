@@ -29,18 +29,18 @@ example extracts the color from an image and applies as the background color:
 
 ```html
 <div>
-  <img id="myImage" src="/images/example.png" />
+	<img id="myImage" src="/images/example.png" />
 </div>
 
 <script>
-  var myImage = document.getElementById("myImage");
-  myImage.addEventListener("load", function() {
-    var colorThief = new ColorThief(),
-      color = colorThief.getColor(myImage);
+	var myImage = document.getElementById("myImage");
+	myImage.addEventListener("load", function() {
+		var colorThief = new ColorThief(),
+			color = colorThief.getColor(myImage);
 
-    myImage.parentNode.style.backgroundColor =
-      "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
-  });
+		myImage.parentNode.style.backgroundColor =
+			"rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
+	});
 </script>
 ```
 
@@ -60,10 +60,10 @@ main JavaScript we have to follwing code in the image onload event:
 // Setting up the web worker.
 var worker = new Worker("worker.js");
 worker.addEventListener("message", function(e) {
-  var color = e.data;
+	var color = e.data;
 
-  myImage.parentNode.style.backgroundColor =
-    "rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
+	myImage.parentNode.style.backgroundColor =
+		"rgb(" + color[0] + ", " + color[1] + ", " + color[2] + ")";
 });
 
 // Starting the web worker.
@@ -78,14 +78,14 @@ Then in the worker.js file, we have the following code:
 
 ```js
 addEventListener("message", function(e) {
-  var imageData = e.data;
+	var imageData = e.data;
 
-  // The getColor function is a modified version of the
-  // ColorThief.getColor function, which directly accepts
-  // the pixel data as an argument.
-  var color = getColor(imageData);
+	// The getColor function is a modified version of the
+	// ColorThief.getColor function, which directly accepts
+	// the pixel data as an argument.
+	var color = getColor(imageData);
 
-  postMessage(color);
+	postMessage(color);
 });
 ```
 

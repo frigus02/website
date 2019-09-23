@@ -7,19 +7,19 @@ const pluginIntoFile = require("./lib/11ty-into-file");
 const pluginSubHeading = require("./lib/11ty-sub-heading");
 
 module.exports = eleventyConfig => {
-  eleventyConfig.addPlugin(pluginFormatDate);
-  eleventyConfig.addPlugin(pluginHtmlMin);
-  eleventyConfig.addPlugin(pluginImage);
-  eleventyConfig.addPlugin(pluginIntoFile);
-  eleventyConfig.addPlugin(pluginSubHeading);
-  eleventyConfig.addPlugin(pluginSyntaxHighlight);
-  eleventyConfig.addPlugin(pluginRss);
+	eleventyConfig.addPlugin(pluginFormatDate);
+	eleventyConfig.addPlugin(pluginHtmlMin);
+	eleventyConfig.addPlugin(pluginImage);
+	eleventyConfig.addPlugin(pluginIntoFile);
+	eleventyConfig.addPlugin(pluginSubHeading);
+	eleventyConfig.addPlugin(pluginSyntaxHighlight);
+	eleventyConfig.addPlugin(pluginRss);
 
-  return {
-    dir: {
-      input: "src",
-      output: "build"
-    },
-    htmlTemplateEngine: "njk"
-  };
+	return {
+		dir: {
+			input: "src",
+			output: "build"
+		},
+		htmlTemplateEngine: "njk"
+	};
 };

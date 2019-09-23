@@ -1,14 +1,14 @@
 .posts-details-datetime {
-    font-size: 0.8em;
-    margin-right: 2em;
+	font-size: 0.8em;
+	margin-right: 2em;
 }
 
 .posts-details-tags {
-    font-size: 0.8em;
-    font-style: italic;
+	font-size: 0.8em;
+	font-style: italic;
 }
 
 .posts-details-content pre {
-    padding: 1em;
-    overflow: auto;
+	padding: 1em;
+	overflow: auto;
 }
