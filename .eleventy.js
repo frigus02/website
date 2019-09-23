@@ -15,6 +15,9 @@ module.exports = eleventyConfig => {
 	eleventyConfig.addPlugin(pluginSyntaxHighlight);
 	eleventyConfig.addPlugin(pluginRss);
 
+	eleventyConfig.addPassthroughCopy("**/.htaccess");
+	eleventyConfig.addPassthroughCopy("src/favicon.ico");
+
 	return {
 		dir: {
 			input: "src",
