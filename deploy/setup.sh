@@ -13,7 +13,7 @@ echo ""
 if [ "\$QUERY_STRING" = "token=$token" ]; then
 	echo "Deployment started"
 
-	nohup ~/projects/website/deploy/trigger.sh "$USER" >~/projects/website-update.log &
+	nohup ~/projects/website/deploy/trigger.sh "$USER" >~/projects/website-update.log 2>&1 &
 else
 	echo "Meh"
 fi
