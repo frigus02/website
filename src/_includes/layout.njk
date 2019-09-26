@@ -1,70 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"
-    />
-    <meta name="theme-color" content="#c7c7c7" />
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes"
+		/>
+		<meta name="theme-color" content="#c7c7c7" />
 
-    <base href="/" />
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="alternate" type="application/atom+xml" href="feeds/posts" />
+		<base href="/" />
+		<link rel="shortcut icon" href="favicon.ico" />
+		<link rel="alternate" type="application/atom+xml" href="feeds/posts" />
 
-    <title>{% if title %}{{ title }} - {% endif %}Jan Kühle</title>
+		<title>{% if title %}{{ title }} - {% endif %}Jan Kühle</title>
 
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Pontano+Sans&display=optional"
-    />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Pontano+Sans&display=optional"
+		/>
 
-    {% set css %}
-      {% include "../static/styles/_layout.css" %}
-      {% include "../static/styles/404.css" %}
-      {% include "../static/styles/index.css" %}
-      {% include "../static/styles/posts-details.css" %}
-      {% include "../static/styles/posts.css" %}
-      {% include "../static/styles/projects-details.css" %}
-      {% include "../static/styles/projects.css" %}
-      {% include "../static/styles/socials.css" %}
-      {% include "../static/styles/shared/big-list.css" %}
-      {% include "../static/styles/shared/button.css" %}
-      {% include "../../node_modules/prismjs/themes/prism.css" %}
-    {% endset %}
-    <link rel="stylesheet" href="{{ css | intoFile('styles.css') }}" />
+		{% set css %}{% include "styles.njk" %}{% endset %}
+		<link rel="stylesheet" href="{{ css | intoFile('styles.css') }}" />
 
-    {% set serviceWorker %}{% include "../static/scripts/no-sw.js" %}{% endset %}
-    <script src="{{ serviceWorker | intoFile('no-sw.js') }}"></script>
-  </head>
-  <body>
-    <header class="header">
-      <h1><a href="/">Jan Kühle</a></h1>
-      {% subHeading page, title %}
-    </header>
+		{% set sw %}{% include "../static/scripts/no-sw.js" %}{% endset %}
+		<script src="{{ sw | intoFile('no-sw.js') }}"></script>
+	</head>
+	<body>
+		<header class="header">
+			<h1><a href="/">Jan Kühle</a></h1>
+			{% subHeading page, title %}
+		</header>
 
-    <div class="content">
-      {{ content | safe }}
-    </div>
+		<div class="content">
+			{{ content | safe }}
+		</div>
 
-    <aside class="socials">
-      <a href="https://github.com/frigus02" title="GitHub"
-        ><img src="{{ 'socials/github.png' | image }}" alt="GitHub"
-      /></a>
-      <a
-        href="https://stackoverflow.com/users/1798215/jan"
-        title="Stack Overflow"
-        ><img
-          src="{{ 'socials/stack-overflow.png' | image }}"
-          alt="Stack Overflow"
-      /></a>
-      <a href="https://twitter.com/frigus02" title="Twitter"
-        ><img src="{{ 'socials/twitter.png' | image }}" alt="Twitter"
-      /></a>
-    </aside>
+		<aside class="socials">
+			<a href="https://github.com/frigus02" title="GitHub"
+				><img src="{{ 'socials/github.png' | image }}" alt="GitHub"
+			/></a>
+			<a
+				href="https://stackoverflow.com/users/1798215/jan"
+				title="Stack Overflow"
+				><img
+					src="{{ 'socials/stack-overflow.png' | image }}"
+					alt="Stack Overflow"
+			/></a>
+			<a href="https://twitter.com/frigus02" title="Twitter"
+				><img src="{{ 'socials/twitter.png' | image }}" alt="Twitter"
+			/></a>
+		</aside>
 
-    <footer class="footer">
-      <a href="/impress">Impress</a>
-    </footer>
-  </body>
+		<footer class="footer">
+			<a href="/impress">Impress</a>
+		</footer>
+	</body>
 </html>
