@@ -10,7 +10,7 @@ cat >~/cgi-bin/update-website <<__EOF__
 echo "Content-Type: text/plain"
 echo ""
 
-if [ "$QUERY_STRING" = "token=$token" ]; then
+if [ "\$QUERY_STRING" = "token=$token" ]; then
 	echo "Deployment started"
 
 	nohup ~/projects/website/deploy/trigger.sh "$USER" >~/projects/website-update.log &
