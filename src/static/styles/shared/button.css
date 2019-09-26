@@ -1,0 +1,29 @@
+.button {
+	background-color: #ccc;
+	border: none;
+	box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, 0.75),
+		/* border */ inset 0 -0.2em 0 hsla(0, 0%, 100%, 0.1),
+		/* bottom background color */ inset 0 -0.25em 0 hsla(0, 0%, 0%, 0.75) /* bottom background color */;
+	color: #444;
+	display: inline-block;
+	font-weight: bold;
+	padding: 0.5em 1.5em 0.75em;
+	text-decoration: none;
+}
+
+.button:hover,
+.button:focus {
+	box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, 0.75),
+		/* border */ inset 0 -0.2em 0 hsla(0, 0%, 100%, 0.1),
+		/* bottom background color */ inset 0 -0.25em 0 hsla(0, 0%, 0%, 0.75),
+		/* bottom background color */ inset 0 0 0 3em hsla(0, 0%, 100%, 0.2)
+			/* hover background color */;
+}
+
+.button:active {
+	box-shadow: inset 0 0 0 1px hsla(0, 0%, 0%, 0.75),
+		/* border */ inset 0 0 0 3em hsla(0, 0%, 100%, 0.2)
+			/* hover background color */;
+	transform: translateY(0.25em);
+	padding-bottom: 0.5em;
+}

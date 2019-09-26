@@ -2,17 +2,23 @@
 
 This is the source of my private website [kuehle.me](https://kuehle.me).
 
-## Build
+## Usage
 
-1. Install generator
+For a development server with live reload:
 
-    ```
-    cd generator
-    go install
-    ```
+```sh
+yarn
+yarn start
+```
 
-2. Run generator
+For a production build:
 
-    ```
-    generator -in site [-mode watch] [-prod]
-    ```
+```sh
+NODE_ENV=production yarn build
+```
+
+To test the Apache config:
+
+```sh
+./docker/run.sh
+```

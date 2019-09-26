@@ -1,0 +1,19 @@
+---
+layout: layout.njk
+title: Posts
+---
+
+<article>
+  <header>
+    <h3>{{ metadata.title }}</h3>
+    <span class="posts-details-datetime">{{ date | formatDate }}</span>
+    <span class="posts-details-tags">
+      {%- for tag in metadata.tags -%}
+      {{ ", " if not loop.first }}{{ tag }}
+      {%- endfor -%}
+    </span>
+  </header>
+  <section class="posts-details-content">
+    {{ content | safe }}
+  </section>
+</article>
