@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-token=$(openssl rand -base64 32)
+token=$(openssl rand -hex 32)
 
 cat >~/cgi-bin/update-website <<__EOF__
 #!/bin/bash

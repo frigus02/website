@@ -10,7 +10,7 @@ source "$HOME/.bash_profile"
 
 cd "$HOME/projects/website"
 
-git fetch
+git fetch --prune
 if it status --porcelain -b -u no | grep behind; then
 	git merge origin/master
 	./deploy/deploy.sh
