@@ -1,6 +1,4 @@
 ---
-layout: layout-project.njk
-tags: projects
 metadata:
   title: Chameleon Tasks Widget
   short_description: Google Tasks widget for the Chameleon Launcher (Android).

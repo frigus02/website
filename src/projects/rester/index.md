@@ -1,6 +1,4 @@
 ---
-layout: layout-project.njk
-tags: projects
 metadata:
   title: RESTer
   short_description: Browser extension to test your REST API with OAuth 2 and variable support.

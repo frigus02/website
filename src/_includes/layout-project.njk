@@ -4,51 +4,51 @@ title: Projects
 ---
 
 <article>
-  <header>
-    <img
-      class="projects-details-logo"
-      src="{{ 'icon.png' | image(page) }}"
-      alt=""
-    />
-    <h3>{{ metadata.title }}</h3>
-  </header>
-  <section>
-    {{ content | safe }}
-  </section>
-  <section class="projects-details-images">
-    {%- for image in metadata.images %}
-    <a href="{{ (image.name + '.png') | image(page) }}" target="_blank">
-      <img
-        src="{{ (image.name + '_thumb.png') | image(page) }}"
-        alt="{{ image.alt }}"
-      />
-    </a>
-    {%- endfor %}
-  </section>
-  <section class="projects-details-getit">
-    {%- for source in metadata.sources %}
-    <a href="{{ source.url }}" target="_blank">
-      {%- if source.type == "googleplay" -%}
-      <img
-        src="{{ 'sources/google-play.png' | image }}"
-        alt="Get it on Google Play"
-      />
-      {%- elif source.type == "git" -%}
-      <img src="{{ 'sources/git.png' | image }}" alt="Get the source" />
-      {%- elif source.type == "amo" -%}
-      <img src="{{ 'sources/amo.png' | image }}" alt="Get it on AMO" />
-      {%- elif source.type == "chromewebstore" -%}
-      <img
-        src="{{ 'sources/chromewebstore.png' | image }}"
-        alt="Get it on the Chrome Web Store"
-      />
-      {%- elif source.type == "try" -%}
-      <img
-        src="{{ 'sources/tryit.png' | image }}"
-        alt="Try it in the browser"
-      />
-      {%- endif -%}
-    </a>
-    {%- endfor %}
-  </section>
+	<header>
+		<img
+			class="projects-details-logo"
+			src="{{ 'icon.png' | image(page) }}"
+			alt=""
+		/>
+		<h3>{{ metadata.title }}</h3>
+	</header>
+	<section>
+		{{ content | safe }}
+	</section>
+	<section class="projects-details-images">
+		{%- for image in metadata.images %}
+		<a href="{{ (image.name + '.png') | image(page) }}" target="_blank">
+			<img
+				src="{{ (image.name + '_thumb.png') | image(page) }}"
+				alt="{{ image.alt }}"
+			/>
+		</a>
+		{%- endfor %}
+	</section>
+	<section class="projects-details-getit">
+		{%- for source in metadata.sources %}
+		<a href="{{ source.url }}" target="_blank">
+			{%- if source.type == "googleplay" -%}
+			<img
+				src="{{ 'sources/google-play.png' | image }}"
+				alt="Get it on Google Play"
+			/>
+			{%- elif source.type == "git" -%}
+			<img src="{{ 'sources/git.png' | image }}" alt="Get the source" />
+			{%- elif source.type == "amo" -%}
+			<img src="{{ 'sources/amo.png' | image }}" alt="Get it on AMO" />
+			{%- elif source.type == "chromewebstore" -%}
+			<img
+				src="{{ 'sources/chromewebstore.png' | image }}"
+				alt="Get it on the Chrome Web Store"
+			/>
+			{%- elif source.type == "try" -%}
+			<img
+				src="{{ 'sources/tryit.png' | image }}"
+				alt="Try it in the browser"
+			/>
+			{%- endif -%}
+		</a>
+		{%- endfor %}
+	</section>
 </article>

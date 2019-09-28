@@ -1,6 +1,4 @@
 ---
-layout: layout-post.njk
-tags: posts
 date: 2015-02-15T14:28:00+01:00
 metadata:
   title: Extract color from image using JavaScript and Web Worker

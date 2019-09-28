@@ -4,7 +4,8 @@ title: Projects
 ---
 
 <ul class="big-list">
-	{% for project in collections.projects | reverse -%}
+	{% for project in collections.projects | reverse -%}{%- if project.url !=
+	page.url -%}
 	<li>
 		<a href="{{ project.url }}">
 			<h3>{{ project.data.metadata.title }}</h3>
@@ -17,11 +18,12 @@ title: Projects
 				{{ project.data.metadata.short_description }}
 			</div>
 			<div class="projects-tags">
-				{%- for tag in project.data.metadata.tags -%} {{ ", " if not loop.first
-				}}{{ tag }} {%- endfor -%}
+				{%- for tag in project.data.metadata.tags -%}
+				{{ ", " if not loop.first }}{{ tag }}
+				{%- endfor -%}
 			</div>
 			<div class="projects-clear"></div>
 		</a>
 	</li>
-	{%- endfor %}
+	{%- endif -%}{%- endfor %}
 </ul>

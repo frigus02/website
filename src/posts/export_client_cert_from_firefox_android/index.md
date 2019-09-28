@@ -1,6 +1,4 @@
 ---
-layout: layout-post.njk
-tags: posts
 date: 2015-11-22T15:04:00+01:00
 metadata:
   title: Export a client certificate from Firefox on Android without root

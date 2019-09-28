@@ -1,6 +1,4 @@
 ---
-layout: layout-project.njk
-tags: projects
 metadata:
   title: Car Report
   short_description: Android app for saving and looking up costs (refuelings, ...) of your car.

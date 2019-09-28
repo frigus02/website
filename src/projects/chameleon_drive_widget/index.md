@@ -1,6 +1,4 @@
 ---
-layout: layout-project.njk
-tags: projects
 metadata:
   title: Chameleon Drive Widget
   short_description: Google Drive widget for the Chameleon Launcher (Android).

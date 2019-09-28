@@ -1,6 +1,4 @@
 ---
-layout: layout-project.njk
-tags: projects
 metadata:
   title: Music Wheel Game
   short_description: An HTML5 music game.
