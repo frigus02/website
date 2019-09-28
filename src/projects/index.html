@@ -9,11 +9,6 @@ title: Projects
 	<li>
 		<a href="{{ project.url }}">
 			<h3>{{ project.data.metadata.title }}</h3>
-			<img
-				class="projects-icon"
-				src="{{ 'icon.png' | image(project) }}"
-				alt=""
-			/>
 			<div class="projects-description">
 				{{ project.data.metadata.short_description }}
 			</div>
@@ -22,7 +17,6 @@ title: Projects
 				{{ ", " if not loop.first }}{{ tag }}
 				{%- endfor -%}
 			</div>
-			<div class="projects-clear"></div>
 		</a>
 	</li>
 	{%- endif -%}{%- endfor %}

@@ -1,13 +1,8 @@
 ---
+date: 2015-10-30T16:21:00Z
 metadata:
   title: Chameleon Tasks Widget
   short_description: Google Tasks widget for the Chameleon Launcher (Android).
-  images:
-    - name: preview
-      alt: Widget on tablet
-  sources:
-    - type: git
-      url: https://bitbucket.org/frigus02/chameleon-tasks-widget/
   tags:
     - Android
     - Chameleon Launcher

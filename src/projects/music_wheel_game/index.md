@@ -1,15 +1,8 @@
 ---
+date: 2018-02-11T11:04:00Z
 metadata:
   title: Music Wheel Game
   short_description: An HTML5 music game.
-  images:
-    - name: main
-      alt: Screenshot of gameplay
-  sources:
-    - type: try
-      url: /demo/music-wheel-game
-    - type: git
-      url: https://github.com/frigus02/music-wheel-game
   tags:
     - Web Components
     - ES Modules

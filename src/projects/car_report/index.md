@@ -1,21 +1,8 @@
 ---
+date: 2019-03-06T20:05:00Z
 metadata:
   title: Car Report
   short_description: Android app for saving and looking up costs (refuelings, ...) of your car.
-  images:
-    - name: reports_tablet
-      alt: Reports on tablet
-    - name: list_tablet
-      alt: Refueling list on tablet
-    - name: list_phone
-      alt: Reports on phone
-    - name: calculator_phone
-      alt: Calculator on phone
-  sources:
-    - type: googleplay
-      url: https://play.google.com/store/apps/details?id=me.kuehle.carreport
-    - type: git
-      url: https://bitbucket.org/frigus02/car-report/
   tags:
     - Android
     - Java

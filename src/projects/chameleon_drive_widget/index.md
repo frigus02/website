@@ -1,13 +1,8 @@
 ---
+date: 2015-10-30T16:20:00Z
 metadata:
   title: Chameleon Drive Widget
   short_description: Google Drive widget for the Chameleon Launcher (Android).
-  images:
-    - name: preview
-      alt: Widget on tablet
-  sources:
-    - type: git
-      url: https://bitbucket.org/frigus02/chameleon-drive-widget/
   tags:
     - Android
     - Chameleon Launcher

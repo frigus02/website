@@ -10,6 +10,7 @@
     "clean-css": "^4.2.1",
     "html-minifier": "^4.0.0",
     "mkdirp": "^0.5.1",
+    "node-fetch": "^2.6.0",
     "prettier": "^1.18.2"
   },
   "scripts": {
