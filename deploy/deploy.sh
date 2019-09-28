@@ -4,6 +4,7 @@ set -xeo pipefail
 
 rm -r build/
 yarn
+node lib/update-projects.js
 NODE_ENV=production yarn build
 
 [ -d "$HOME/html/404" ] && rm -r "$HOME/html/404"
