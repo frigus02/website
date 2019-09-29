@@ -9,18 +9,22 @@ title: Projects
 	</header>
 	<aside class="projects-details-info">
 		<dl>
+			{% if metadata.homepage %}
 			<dt>Homepage</dt>
 			<dd>
 				<a href="{{ metadata.homepage }}">{{ metadata.homepage }}</a>
 			</dd>
+			{% endif %}
 			<dt>Source</dt>
 			<dd>
 				<a href="{{ metadata.source }}">{{ metadata.source }}</a>
 			</dd>
 			<dt>Language</dt>
 			<dd>{{ metadata.language }}</dd>
+			{% if metadata.license %}
 			<dt>License</dt>
 			<dd>{{ metadata.license }}</dd>
+			{% endif %}
 		</dl>
 	</aside>
 	<section class="projects-details-content">
