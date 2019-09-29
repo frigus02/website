@@ -1,11 +1,7 @@
 .projects-details-info {
-	float: right;
-	width: 35%;
 	background: #eee;
 	padding: 1em;
 	font-size: 0.8em;
-	margin-left: 0.5em;
-	margin-bottom: 0.5em;
 }
 
 .projects-details-info dl {
@@ -22,4 +18,8 @@
 
 .projects-details-info dd:not(:last-child) {
 	margin-bottom: 0.5em;
+}
+
+.projects-details-content img {
+	max-width: 100%;
 }
