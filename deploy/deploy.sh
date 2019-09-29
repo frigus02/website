@@ -18,3 +18,5 @@ NODE_ENV=production yarn build
 rm "$HOME/html/"*.html
 
 cp -r build/. "$HOME/html/"
+
+echo "Deployment successful"
