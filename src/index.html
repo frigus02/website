@@ -2,10 +2,14 @@
 layout: layout.njk
 ---
 
-<img class="index-me" src="{{ 'me.jpg' | image }}" alt="A picture of me" />
+<img
+	class="index-me"
+	src="{{ '/static/images/me.jpg' }}"
+	alt="A picture of me"
+/>
 
 <div class="index-about">
-	<img src="{{ 'about_arrow.png' | image }}" alt="" />
+	<img src="{{ '/static/images/about_arrow.png' }}" alt="" />
 	<p>Hi, this is me.</p>
 	<p>
 		I'm a passionate full stack web developer with an additional interest in
