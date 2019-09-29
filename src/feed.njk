@@ -13,7 +13,7 @@ permalink: feeds/posts
     <uri>https://kuehle.me</uri>
     <email>jkuehle90@gmail.com</email>
   </author>
-  {%- for post in collections.posts %}
+  {%- for post in collections.posts %}{%- if post.url != "/posts/" -%}
   {% set absolutePostUrl %}{{ post.url | url | absoluteUrl(metadata.url) }}{% endset %}
   <entry>
     <title>{{ post.data.metadata.title }}</title>
@@ -23,5 +23,5 @@ permalink: feeds/posts
     <content type="html">{{ post.data.metadata.summary }}</content>
     <content type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
   </entry>
-  {%- endfor %}
+  {%- endif -%}{%- endfor %}
 </feed>
