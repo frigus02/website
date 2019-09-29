@@ -1,6 +1,8 @@
 const { join: joinPath } = require("path");
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
+const markdownIt = require("markdown-it");
+const markdownItAnchor = require("markdown-it-anchor");
 const pluginFormatDate = require("./lib/11ty-format-date");
 const pluginHtmlMin = require("./lib/11ty-htmlmin");
 const pluginImage = require("./lib/11ty-image");
@@ -19,6 +21,9 @@ module.exports = eleventyConfig => {
 
 	eleventyConfig.addPassthroughCopy(joinPath(inputDir, "**/.htaccess"));
 	eleventyConfig.addPassthroughCopy(joinPath(inputDir, "favicon.ico"));
+
+	const markdownLib = markdownIt({ html: true }).use(markdownItAnchor);
+	eleventyConfig.setLibrary("md", markdownLib);
 
 	return {
 		dir: {
