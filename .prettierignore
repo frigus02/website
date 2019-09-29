@@ -1,0 +1,4 @@
+build/
+node_modules/
+src/_includes/styles.njk
+src/feed.njk

@@ -16,6 +16,6 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
-    "format": "prettier --write \"**/*.{html,js,css,md}\""
+    "format": "prettier --write \"**/*.{html,js,css,md,njk}\""
   }
 }
