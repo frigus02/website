@@ -18,9 +18,11 @@
 			href="https://fonts.googleapis.com/css?family=Pontano+Sans&display=optional"
 		/>
 
-		{% set css %}{% include "styles.njk" %}{% endset %}
-		<link rel="stylesheet" href="{{ css | intoFile('styles.css') }}" />
+		{% for style in styles -%}
+		<link rel="stylesheet" href="{{ style }}" />
+		{% endfor -%}
 
+		<!-- Unregister previously installed service worker -->
 		{% set sw %}{% include "../static/scripts/no-sw.js" %}{% endset %}
 		<script src="{{ sw | intoFile('no-sw.js') }}"></script>
 	</head>
@@ -36,17 +38,17 @@
 
 		<aside class="socials">
 			<a href="https://github.com/frigus02" title="GitHub"
-				><img src="{{ '/static/images/socials/github.png' }}" alt="GitHub"
+				><img src="/static/images/socials/github.png" alt="GitHub"
 			/></a>
 			<a
 				href="https://stackoverflow.com/users/1798215/jan"
 				title="Stack Overflow"
 				><img
-					src="{{ '/static/images/socials/stack-overflow.png' }}"
+					src="/static/images/socials/stack-overflow.png"
 					alt="Stack Overflow"
 			/></a>
 			<a href="https://twitter.com/frigus02" title="Twitter"
-				><img src="{{ '/static/images/socials/twitter.png' }}" alt="Twitter"
+				><img src="/static/images/socials/twitter.png" alt="Twitter"
 			/></a>
 		</aside>
 
