@@ -1,4 +1,4 @@
-const { join: joinPath } = require("path");
+const { join: joinPath } = require("path").posix;
 const pluginSyntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const pluginRss = require("@11ty/eleventy-plugin-rss");
 const markdownIt = require("markdown-it");
