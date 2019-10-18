@@ -27,3 +27,11 @@ This site is deployed on Uberspace.
    | Payload URL | `https://<domain><path-printed-by-prev-command>` |
    | Secret      | _empty_                                          |
    | Events      | Just the `push` event                            |
+
+1. Configure security headers
+
+   ```sh
+   uberspace-configure-webserver enable hsts
+   uberspace-configure-webserver enable nosniff
+   uberspace-configure-webserver enable xxss_protection
+   ```

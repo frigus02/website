@@ -16,7 +16,8 @@ Header set Content-Security-Policy "\
  style-src 'self' fonts.googleapis.com;\
  font-src fonts.gstatic.com;\
  img-src 'self';\
- base-uri 'none';"
+ base-uri 'none';\
+ frame-ancestors 'none';"
 Header set Referrer-Policy no-referrer
 
 <Files index.html>
