@@ -19,7 +19,6 @@ module.exports = eleventyConfig => {
 	eleventyConfig.addPlugin(pluginSyntaxHighlight);
 	eleventyConfig.addPlugin(pluginRss);
 
-	eleventyConfig.addPassthroughCopy(joinPath(inputDir, "**/.htaccess"));
 	eleventyConfig.addPassthroughCopy(joinPath(inputDir, "favicon.ico"));
 
 	const markdownLib = markdownIt({ html: true }).use(markdownItAnchor);
