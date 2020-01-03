@@ -16,9 +16,3 @@ For a production build:
 ```sh
 NODE_ENV=production yarn build
 ```
-
-To test the Apache config:
-
-```sh
-./docker/run.sh
-```
