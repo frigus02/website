@@ -32,7 +32,7 @@ example extracts the color from an image and applies as the background color:
 
 <script>
 	var myImage = document.getElementById("myImage");
-	myImage.addEventListener("load", function() {
+	myImage.addEventListener("load", function () {
 		var colorThief = new ColorThief(),
 			color = colorThief.getColor(myImage);
 
@@ -57,7 +57,7 @@ main JavaScript we have to follwing code in the image onload event:
 ```js
 // Setting up the web worker.
 var worker = new Worker("worker.js");
-worker.addEventListener("message", function(e) {
+worker.addEventListener("message", function (e) {
 	var color = e.data;
 
 	myImage.parentNode.style.backgroundColor =
@@ -75,7 +75,7 @@ worker.postMessage(imageData);
 Then in the worker.js file, we have the following code:
 
 ```js
-addEventListener("message", function(e) {
+addEventListener("message", function (e) {
 	var imageData = e.data;
 
 	// The getColor function is a modified version of the

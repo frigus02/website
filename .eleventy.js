@@ -10,7 +10,7 @@ const pluginIntoFile = require("./lib/11ty-into-file");
 const pluginSubHeading = require("./lib/11ty-sub-heading");
 const { inputDir, outputDir } = require("./lib/utils/config");
 
-module.exports = eleventyConfig => {
+module.exports = (eleventyConfig) => {
 	eleventyConfig.addPlugin(pluginFormatDate);
 	eleventyConfig.addPlugin(pluginHtmlImages);
 	eleventyConfig.addPlugin(pluginHtmlMin);
@@ -27,8 +27,8 @@ module.exports = eleventyConfig => {
 	return {
 		dir: {
 			input: inputDir,
-			output: outputDir
+			output: outputDir,
 		},
-		htmlTemplateEngine: "njk"
+		htmlTemplateEngine: "njk",
 	};
 };
