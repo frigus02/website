@@ -20,6 +20,7 @@
   "scripts": {
     "start": "concurrently -n css,site \"node lib/build-css.js --watch\" \"eleventy --serve\"",
     "build": "node lib/build-css.js && eleventy",
-    "format": "prettier --write \"**/*.{html,js,css,md,njk}\""
+    "format": "prettier --write \"**/*.{html,js,css,md,njk}\"",
+    "update-projects": "node lib/update-projects.js"
   }
 }
