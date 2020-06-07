@@ -1,4 +1,4 @@
-FROM node:12 AS builder
+FROM node:14 AS builder
 
 WORKDIR /opt/app
 COPY package.json yarn.lock ./
@@ -7,7 +7,8 @@ COPY . ./
 RUN node lib/update-projects.js && \
     NODE_ENV=production yarn build
 
-FROM nginx:1.17
+FROM nginx:1.18
 
 COPY deploy/docker/default.conf /etc/nginx/conf.d/default.conf
+COPY deploy/docker/common-headers.conf /etc/nginx/snippets/common-headers.conf
 COPY --from=builder /opt/app/build /usr/share/nginx/html
