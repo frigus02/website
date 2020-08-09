@@ -23,3 +23,24 @@
 .projects-details-content img {
 	max-width: 100%;
 }
+
+.projects-details-content blockquote {
+	border-left: 4px solid #ddd;
+	margin-left: 0;
+	margin-right: 0;
+	padding: 0 1em;
+}
+
+.projects-details-content table {
+	border-collapse: collapse;
+}
+
+.projects-details-content tr:nth-child(2n) {
+	background-color: #eee;
+}
+
+.projects-details-content td,
+.projects-details-content th {
+	border: 1px solid #ddd;
+	padding: 0.4em 0.5em;
+}
