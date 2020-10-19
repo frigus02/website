@@ -14,7 +14,7 @@
     "markdown-it-anchor": "6.0.0",
     "node-fetch": "2.6.1",
     "p-limit": "3.0.2",
-    "posthtml": "0.13.3",
+    "posthtml": "0.13.4",
     "prettier": "2.1.2"
   },
   "scripts": {
