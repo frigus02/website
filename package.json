@@ -15,7 +15,7 @@
     "node-fetch": "2.6.1",
     "p-limit": "3.0.2",
     "posthtml": "0.15.1",
-    "prettier": "2.2.0"
+    "prettier": "2.2.1"
   },
   "scripts": {
     "start": "concurrently -n css,site \"node lib/build-css.js --watch\" \"eleventy --serve\"",
