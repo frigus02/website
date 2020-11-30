@@ -13,7 +13,7 @@
     "html-minifier": "4.0.0",
     "markdown-it-anchor": "6.0.1",
     "node-fetch": "2.6.1",
-    "p-limit": "3.0.2",
+    "p-limit": "3.1.0",
     "posthtml": "0.15.1",
     "prettier": "2.2.1"
   },
