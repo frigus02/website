@@ -6,7 +6,7 @@
   "devDependencies": {
     "@11ty/eleventy": "0.11.1",
     "@11ty/eleventy-plugin-rss": "1.0.9",
-    "@11ty/eleventy-plugin-syntaxhighlight": "3.0.4",
+    "@11ty/eleventy-plugin-syntaxhighlight": "3.0.6",
     "chokidar": "3.4.3",
     "clean-css": "4.2.3",
     "concurrently": "5.3.0",
