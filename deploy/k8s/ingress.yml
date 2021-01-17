@@ -16,3 +16,9 @@ spec:
           - backend:
               serviceName: chooser
               servicePort: 80
+    - host: music-wheel-game.kuehle.me
+      http:
+        paths:
+          - backend:
+              serviceName: music-wheel-game
+              servicePort: 80
