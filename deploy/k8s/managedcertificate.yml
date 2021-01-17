@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: me-kuehle
+spec:
+  domains:
+    - kuehle.me

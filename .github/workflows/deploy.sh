@@ -15,8 +15,9 @@ curl -sfL \
 	https://github.com/frigus02/kyml/releases/download/v$KYML_VERSION/kyml_${KYML_VERSION}_linux_amd64
 chmod +x "$HOME/bin/kyml"
 
-mkdir -p "$HOME/.kube"
-echo "$KUBE_CONFIG" >"$HOME/.kube/config"
+echo "$GCP_SVC_ACC" >"$HOME/gcloud.json"
+gcloud auth activate-service-account --key-file="$HOME/gcloud.json"
+gcloud container clusters get-credentials website --zone europe-west3-a --project me-kuehle
 
 kyml cat deploy/k8s/*.yml |
 	kyml tmpl -v ImageTag=$(git rev-parse HEAD) |

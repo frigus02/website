@@ -16,4 +16,4 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: ./.github/workflows/deploy.sh
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          GCP_SVC_ACC: ${{ secrets.GCP_SVC_ACC }}
