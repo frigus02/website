@@ -9,3 +9,10 @@ spec:
   backend:
     serviceName: website
     servicePort: 80
+  rules:
+    - host: chooser.kuehle.me
+      http:
+        paths:
+          - backend:
+              serviceName: chooser
+              servicePort: 80
