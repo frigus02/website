@@ -12,6 +12,7 @@ jobs:
         run: ./.github/workflows/build.sh
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          CI_REF: ${{ github.ref }}
       - name: Deploy
         if: github.ref == 'refs/heads/main'
         run: ./.github/workflows/deploy.sh
