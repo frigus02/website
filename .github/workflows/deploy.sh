@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sbash
 set -eu
 
 KUBECTL_VERSION=1.17.0
