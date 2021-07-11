@@ -4,8 +4,7 @@ WORKDIR /opt/app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 COPY . ./
-RUN node lib/update-projects.js && \
-    NODE_ENV=production yarn build
+RUN yarn build
 
 FROM nginx:1.21.0
 

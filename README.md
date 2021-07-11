@@ -14,5 +14,5 @@ yarn start
 For a production build:
 
 ```sh
-NODE_ENV=production yarn build
+yarn build
 ```
