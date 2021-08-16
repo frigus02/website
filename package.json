@@ -20,7 +20,7 @@
   "scripts": {
     "start": "node lib/update-projects.js && concurrently -n css,site \"node lib/build-css.js --watch\" \"eleventy --serve\"",
     "build": "NODE_ENV=production yarn _build_internal",
-    "_build_internal": "node lib/update-projects.js && node lib/build-css.js && eleventy",
+    "_build_internal": "node lib/update-projects.js && node lib/build-css.mjs && eleventy",
     "format": "prettier --write \"**/*.{html,js,css,md,njk}\""
   }
 }
