@@ -12,15 +12,15 @@
     "concurrently": "6.2.1",
     "html-minifier": "4.0.0",
     "markdown-it-anchor": "8.3.0",
-    "node-fetch": "2.6.1",
+    "node-fetch": "3.0.0",
     "p-limit": "4.0.0",
     "posthtml": "0.16.5",
     "prettier": "2.3.2"
   },
   "scripts": {
-    "start": "node lib/update-projects.js && concurrently -n css,site \"node lib/build-css.js --watch\" \"eleventy --serve\"",
+    "start": "node lib/update-projects.mjs && concurrently -n css,site \"node lib/build-css.js --watch\" \"eleventy --serve\"",
     "build": "NODE_ENV=production yarn _build_internal",
-    "_build_internal": "node lib/update-projects.js && node lib/build-css.mjs && eleventy",
+    "_build_internal": "node lib/update-projects.mjs && node lib/build-css.mjs && eleventy",
     "format": "prettier --write \"**/*.{html,js,css,md,njk}\""
   }
 }
