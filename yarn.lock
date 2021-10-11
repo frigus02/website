@@ -16,13 +16,13 @@
     posthtml "^0.15.1"
     posthtml-urls "1.0.0"
 
-"@11ty/eleventy-plugin-syntaxhighlight@3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@11ty/eleventy-plugin-syntaxhighlight/-/eleventy-plugin-syntaxhighlight-3.1.2.tgz#3fc70298d4e7e5636121e3d8afdc2ab9a1002564"
-  integrity sha512-OdUNqRMV2rvNljHgL6MW4hA+jBpdEbuSKOWYNKgD8OwlsDwwzooRNyDAF5u4sXQ0knjenDeWOH6fuCiLharAWA==
+"@11ty/eleventy-plugin-syntaxhighlight@3.1.3":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@11ty/eleventy-plugin-syntaxhighlight/-/eleventy-plugin-syntaxhighlight-3.1.3.tgz#afbd846eaba16d0380c8684556eb796e2fe4b429"
+  integrity sha512-xUNbUl1rC6nRGwoWhTcivjWc6h45Y7QzKpjjjLAII4XxR9JsR1kOWYNOyI6ErK4I218tsBwgSgGVHsSAVFuAcQ==
   dependencies:
-    linkedom "^0.11.0"
-    prismjs "^1.24.1"
+    linkedom "^0.12.1"
+    prismjs "^1.25.0"
 
 "@11ty/eleventy@0.12.1":
   version "0.12.1"
@@ -732,7 +732,7 @@ domelementtype@^2.0.1, domelementtype@^2.2.0:
   resolved "https://registry.yarnpkg.com/domelementtype/-/domelementtype-2.2.0.tgz#9a0b6c2782ed6a1c7323d42267183df9bd8b1d57"
   integrity sha512-DtBMo82pv1dFtUmHyr48beiuq792Sxohr+8Hm9zoxklYPfa6n0Z3Byjj2IV7bmr2IyqClnqEQhfgHJJ5QF0R5A==
 
-domhandler@^4.0.0, domhandler@^4.2.0:
+domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-4.2.2.tgz#e825d721d19a86b8c201a35264e226c678ee755f"
   integrity sha512-PzE9aBMsdZO8TK4BnuJwH0QT41wgMbRzuZrHUcpYncEjmQazq8QEaBWgLG7ZyC/DAZKEgglpIA6j4Qn/HmxS3w==
@@ -1135,7 +1135,7 @@ html-minifier@4.0.0:
     relateurl "^0.2.7"
     uglify-js "^3.5.1"
 
-htmlparser2@^6.0.0, htmlparser2@^6.1.0:
+htmlparser2@^6.0.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-6.1.0.tgz#c4d762b6c3371a05dbe65e94ae43a9f845fb8fb7"
   integrity sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==
@@ -1152,6 +1152,16 @@ htmlparser2@^7.1.1:
   dependencies:
     domelementtype "^2.0.1"
     domhandler "^4.0.0"
+    domutils "^2.8.0"
+    entities "^3.0.1"
+
+htmlparser2@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-7.1.2.tgz#587923d38f03bc89e03076e00cba2c7473f37f7c"
+  integrity sha512-d6cqsbJba2nRdg8WW2okyD4ceonFHn9jLFxhwlNcLhQWcFPdxXeJulgOLjLKtAK9T6ahd+GQNZwG9fjmGW7lyg==
+  dependencies:
+    domelementtype "^2.0.1"
+    domhandler "^4.2.2"
     domutils "^2.8.0"
     entities "^3.0.1"
 
@@ -1442,16 +1452,16 @@ limiter@^1.0.5:
   resolved "https://registry.yarnpkg.com/limiter/-/limiter-1.1.5.tgz#8f92a25b3b16c6131293a0cc834b4a838a2aa7c2"
   integrity sha512-FWWMIEOxz3GwUI4Ts/IvgVy6LPvoMPgjMdQ185nN6psJyBJ4yOpzqm695/h5umdLJg2vW3GR5iG11MAkR2AzJA==
 
-linkedom@^0.11.0:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/linkedom/-/linkedom-0.11.2.tgz#1b50031f78db745b9ce7cb29354c26fff39c97ab"
-  integrity sha512-cqxU5owJnJlSiGKkJ1a1umGEqNWvTLABkZ672EFwMEeRF1HeZ7yC8NbTI846FesfwYI3Qou2IfnBh/Wk1mrKmQ==
+linkedom@^0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/linkedom/-/linkedom-0.12.1.tgz#cdab2a513aafddec346dc35667ebe748fee9c081"
+  integrity sha512-kqqcUNG7RRuRFVSz5pauNBEgO/y9Cc8GIrALHfb7CwDOpx9kJh217QvJc//vAOkKaMDLoZChzGJN7QksH3dTSw==
   dependencies:
     "@ungap/event-target" "^0.2.3"
     css-select "^4.1.3"
     cssom "^0.5.0"
     html-escaper "^3.0.3"
-    htmlparser2 "^6.1.0"
+    htmlparser2 "^7.1.2"
     uhyphen "^0.1.0"
 
 linkify-it@^2.0.0:
@@ -1942,7 +1952,7 @@ pretty@^2.0.0:
     extend-shallow "^2.0.1"
     js-beautify "^1.6.12"
 
-prismjs@^1.24.1:
+prismjs@^1.25.0:
   version "1.25.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.25.0.tgz#6f822df1bdad965734b310b315a23315cf999756"
   integrity sha512-WCjJHl1KEWbnkQom1+SzftbtXMKQoezOCYs5rECqMN+jP+apI7ftoflyqigqzopSO3hMhTEb0mFClA8lkolgEg==
