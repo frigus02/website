@@ -30,5 +30,6 @@ module.exports = (eleventyConfig) => {
 			output: outputDir,
 		},
 		htmlTemplateEngine: "njk",
+		markdownTemplateEngine: false,
 	};
 };
