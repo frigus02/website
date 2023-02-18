@@ -20,6 +20,7 @@ module.exports = (eleventyConfig) => {
 	eleventyConfig.addPlugin(pluginRss);
 
 	eleventyConfig.addPassthroughCopy(joinPath(inputDir, "favicon.ico"));
+	eleventyConfig.addPassthroughCopy(joinPath(inputDir, "_headers"));
 
 	const markdownLib = markdownIt({ html: true }).use(markdownItAnchor);
 	eleventyConfig.setLibrary("md", markdownLib);
