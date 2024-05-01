@@ -7,12 +7,12 @@ This is the source of my personal website [kuehle.me](https://kuehle.me).
 For a development server with live reload:
 
 ```sh
-yarn
-yarn start
+npm i
+npm run start
 ```
 
 For a production build:
 
 ```sh
-yarn build
+npm run build
 ```
