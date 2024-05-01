@@ -12,6 +12,13 @@ body {
 	display: inline-block;
 }
 
+.header h1 {
+	view-transition-name: title;
+}
+.header h2 {
+	view-transition-name: title2;
+}
+
 .header h1 a,
 .header h2 a {
 	text-decoration: none;
