@@ -14,7 +14,7 @@
     "markdown-it-anchor": "9.0.1",
     "p-limit": "5.0.0",
     "posthtml": "0.16.6",
-    "prettier": "3.3.1"
+    "prettier": "3.3.2"
   },
   "scripts": {
     "start": "node lib/update-projects.mjs && concurrently -n css,site \"node lib/build-css.mjs --watch\" \"eleventy --serve\"",
