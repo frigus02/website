@@ -7,7 +7,7 @@ permalink: feeds/posts
   <id>https://kuehle.me/posts</id>
   <link rel="alternate" href="https://kuehle.me/posts"></link>
   <link rel="self" href="https://kuehle.me/feeds/posts"></link>
-  <updated>{{ collections.posts | rssLastUpdatedDate }}</updated>
+  <updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
   <author>
     <name>Jan Kühle</name>
     <uri>https://kuehle.me</uri>
@@ -19,7 +19,7 @@ permalink: feeds/posts
     <title>{{ post.data.metadata.title }}</title>
     <id>{{ absolutePostUrl }}</id>
     <link href="{{ absolutePostUrl }}"/>
-    <updated>{{ post.date | rssDate }}</updated>
+    <updated>{{ post.date | dateToRfc3339 }}</updated>
     <content type="html">{{ post.data.metadata.summary }}</content>
     <content type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
   </entry>
