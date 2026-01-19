@@ -15,7 +15,7 @@
     "nunjucks": "3.2.4",
     "p-limit": "7.2.0",
     "posthtml": "0.16.7",
-    "prettier": "3.7.4"
+    "prettier": "3.8.0"
   },
   "scripts": {
     "start": "node lib/update-projects.mjs && concurrently -n css,site \"node lib/build-css.mjs --watch\" \"eleventy --serve\"",
