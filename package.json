@@ -11,7 +11,7 @@
     "clean-css": "5.3.3",
     "concurrently": "10.0.5",
     "html-minifier": "4.0.0",
-    "markdown-it-anchor": "9.2.1",
+    "markdown-it-anchor": "10.0.0",
     "nunjucks": "3.2.4",
     "p-limit": "7.3.2",
     "posthtml": "0.16.7",
